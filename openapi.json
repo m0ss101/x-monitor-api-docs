@@ -1,0 +1,1039 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Message Service",
+    "description": "Middleware layer for Fingerprint Browser Automation System",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/v1/dashboard/workers": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Workers",
+        "description": "Get all workers with filtering\n\nReturns array of worker objects with pagination metadata",
+        "operationId": "get_workers_api_v1_dashboard_workers_get",
+        "parameters": [
+          {
+            "name": "worker_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/WorkerType"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by worker type",
+              "title": "Worker Type"
+            },
+            "description": "Filter by worker type"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Number of workers to return",
+              "default": 100,
+              "title": "Limit"
+            },
+            "description": "Number of workers to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of workers to skip",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Number of workers to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/{uuid}": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Worker Details",
+        "description": "Get specific worker details",
+        "operationId": "get_worker_details_api_v1_dashboard_workers__uuid__get",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Update Worker Info",
+        "description": "Update worker information (note, etc.)",
+        "operationId": "update_worker_info_api_v1_dashboard_workers__uuid__patch",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Remove Worker",
+        "description": "Remove worker from registry and Redis",
+        "operationId": "remove_worker_api_v1_dashboard_workers__uuid__delete",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/{uuid}/note": {
+      "patch": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Update Worker Note",
+        "description": "Update worker note\n\nRequest Body: {\"note\": \"string\"}",
+        "operationId": "update_worker_note_api_v1_dashboard_workers__uuid__note_patch",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Note Data"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/{uuid}/heartbeat": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Worker Heartbeat",
+        "description": "Get worker heartbeat status from Redis TTL\n\nReturns current heartbeat status with TTL information",
+        "operationId": "get_worker_heartbeat_api_v1_dashboard_workers__uuid__heartbeat_get",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/online": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Online Workers",
+        "description": "Get list of all currently online workers",
+        "operationId": "get_online_workers_api_v1_dashboard_workers_online_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/{uuid}/status": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Worker Status Report",
+        "description": "Get worker status report from Redis\n\nReturns complete worker status including metadata and runtime information",
+        "operationId": "get_worker_status_report_api_v1_dashboard_workers__uuid__status_get",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/status/all": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get All Workers Status Reports",
+        "description": "Get status reports for all workers\n\nReturns dict of worker UUIDs to their status reports",
+        "operationId": "get_all_workers_status_reports_api_v1_dashboard_workers_status_all_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/{uuid}/status/refresh": {
+      "post": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Refresh Worker Status",
+        "description": "Request worker to refresh its status report\n\nSends a message via RabbitMQ to trigger worker status refresh",
+        "operationId": "refresh_worker_status_api_v1_dashboard_workers__uuid__status_refresh_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workers/register": {
+      "post": {
+        "tags": [
+          "workers"
+        ],
+        "summary": "Register Worker",
+        "description": "Worker self-registration",
+        "operationId": "register_worker_api_v1_workers_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workers/{uuid}/heartbeat": {
+      "post": {
+        "tags": [
+          "workers"
+        ],
+        "summary": "Worker Heartbeat",
+        "description": "Worker heartbeat update with Redis TTL\n\nWorker sends heartbeat_interval in JSON body, Redis auto-sets 3x interval TTL",
+        "operationId": "worker_heartbeat_api_v1_workers__uuid__heartbeat_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HeartbeatData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/workers/{uuid}/status": {
+      "post": {
+        "tags": [
+          "workers"
+        ],
+        "summary": "Worker Status Report",
+        "description": "Worker status report submission\n\nWorker submits complete status including metadata and runtime information",
+        "operationId": "worker_status_report_api_v1_workers__uuid__status_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkerStatusReport"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crawler/start-browser": {
+      "post": {
+        "tags": [
+          "crawler"
+        ],
+        "summary": "Start Browser For Country",
+        "operationId": "start_browser_for_country_api_v1_crawler_start_browser_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartBrowserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StartBrowserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Root endpoint",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "BrowserInstanceInfo": {
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "title": "Pid"
+          },
+          "port": {
+            "type": "integer",
+            "title": "Port"
+          },
+          "is_alive": {
+            "type": "boolean",
+            "title": "Is Alive"
+          },
+          "executable_path": {
+            "type": "string",
+            "title": "Executable Path"
+          },
+          "args": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Args"
+          },
+          "envs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Envs"
+          },
+          "user_data_dir": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Data Dir"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pid",
+          "port",
+          "is_alive",
+          "executable_path",
+          "args",
+          "envs"
+        ],
+        "title": "BrowserInstanceInfo",
+        "description": "Browser instance runtime information"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HeartbeatData": {
+        "properties": {
+          "heartbeat_interval": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 300.0,
+                "minimum": 10.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heartbeat Interval",
+            "description": "Heartbeat interval in seconds",
+            "default": 60
+          }
+        },
+        "type": "object",
+        "title": "HeartbeatData",
+        "description": "Heartbeat data from worker - Compatible with existing fpb-desktop format"
+      },
+      "StartBrowserRequest": {
+        "properties": {
+          "country_code": {
+            "type": "string",
+            "title": "Country Code",
+            "description": "ISO country code (e.g., 'US', 'CN', 'JP')"
+          }
+        },
+        "type": "object",
+        "required": [
+          "country_code"
+        ],
+        "title": "StartBrowserRequest",
+        "description": "Request model for starting browsers"
+      },
+      "StartBrowserResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Command status: 'sent', 'failed', 'no_worker'"
+          },
+          "country_code": {
+            "type": "string",
+            "title": "Country Code",
+            "description": "Country code from request"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Status message"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error",
+            "description": "Error details if failed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "country_code",
+          "message"
+        ],
+        "title": "StartBrowserResponse",
+        "description": "Response model for start browser command"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WorkerCreate": {
+        "properties": {
+          "worker_uuid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worker Uuid"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "worker_type": {
+            "$ref": "#/components/schemas/WorkerType"
+          },
+          "is_reconnection": {
+            "type": "boolean",
+            "title": "Is Reconnection",
+            "description": "Whether this is a reconnection",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "worker_type"
+        ],
+        "title": "WorkerCreate",
+        "description": "Worker creation model"
+      },
+      "WorkerMetadata": {
+        "properties": {
+          "client_ip": {
+            "type": "string",
+            "title": "Client Ip"
+          },
+          "mac_address": {
+            "type": "string",
+            "title": "Mac Address"
+          },
+          "config": {
+            "type": "object",
+            "title": "Config",
+            "description": "Startup configuration"
+          },
+          "system_info": {
+            "type": "object",
+            "title": "System Info",
+            "description": "Basic system information"
+          },
+          "worker_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worker Version"
+          },
+          "startup_time": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Startup Time"
+          }
+        },
+        "type": "object",
+        "required": [
+          "client_ip",
+          "mac_address",
+          "config",
+          "system_info",
+          "startup_time"
+        ],
+        "title": "WorkerMetadata",
+        "description": "Worker metadata - Static information that doesn't change frequently"
+      },
+      "WorkerRuntime": {
+        "properties": {
+          "cpu_percent": {
+            "type": "number",
+            "title": "Cpu Percent"
+          },
+          "memory_usage": {
+            "type": "object",
+            "title": "Memory Usage"
+          },
+          "browser_instances": {
+            "items": {
+              "$ref": "#/components/schemas/BrowserInstanceInfo"
+            },
+            "type": "array",
+            "title": "Browser Instances"
+          },
+          "total_browsers": {
+            "type": "integer",
+            "title": "Total Browsers"
+          },
+          "active_browsers": {
+            "type": "integer",
+            "title": "Active Browsers"
+          },
+          "load_average": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Load Average"
+          },
+          "uptime_seconds": {
+            "type": "integer",
+            "title": "Uptime Seconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cpu_percent",
+          "memory_usage",
+          "browser_instances",
+          "total_browsers",
+          "active_browsers",
+          "uptime_seconds"
+        ],
+        "title": "WorkerRuntime",
+        "description": "Worker runtime information - Dynamic information that changes frequently"
+      },
+      "WorkerStatusReport": {
+        "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "worker_type": {
+            "type": "string",
+            "title": "Worker Type"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/WorkerMetadata"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/WorkerRuntime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "worker_uuid",
+          "worker_type",
+          "timestamp",
+          "metadata",
+          "runtime"
+        ],
+        "title": "WorkerStatusReport",
+        "description": "Complete worker status report"
+      },
+      "WorkerType": {
+        "type": "string",
+        "enum": [
+          "fpb_desktop",
+          "notification_mobile"
+        ],
+        "title": "WorkerType",
+        "description": "Worker type enumeration"
+      },
+      "WorkerUpdate": {
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "title": "WorkerUpdate",
+        "description": "Worker update model"
+      }
+    }
+  }
+}
