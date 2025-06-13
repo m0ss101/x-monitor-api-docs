@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-13 16:25:25 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-13 17:05:28 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -291,58 +291,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetWorkerDetailsResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Update Worker Info",
-        "description": "Update worker information",
-        "operationId": "update_worker_info_api_v1_dashboard_workers__uuid__patch",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateWorkerRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateWorkerResponse"
                 }
               }
             }
@@ -559,28 +507,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/dashboard/workers/status/all": {
-      "get": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Get All Workers Status Reports",
-        "description": "Get all workers status reports",
-        "operationId": "get_all_workers_status_reports_api_v1_dashboard_workers_status_all_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetAllStatusReportsResponse"
                 }
               }
             }
@@ -914,6 +840,27 @@
   },
   "components": {
     "schemas": {
+      "ActionStatus": {
+        "type": "string",
+        "enum": [
+          "sent",
+          "skipped"
+        ],
+        "title": "ActionStatus",
+        "description": "Action execution status enumeration"
+      },
+      "ApiStatus": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "failed",
+          "error",
+          "sent",
+          "no_worker"
+        ],
+        "title": "ApiStatus",
+        "description": "API response status enumeration"
+      },
       "AppendTaskRequest": {
         "properties": {
           "source_worker_uuid": {
@@ -1008,27 +955,6 @@
         "title": "BrowserInstanceInfo",
         "description": "Browser instance runtime information"
       },
-      "GetAllStatusReportsResponse": {
-        "properties": {
-          "status_reports": {
-            "type": "object",
-            "title": "Status Reports",
-            "description": "Status reports by worker UUID"
-          },
-          "count": {
-            "type": "integer",
-            "title": "Count",
-            "description": "Number of status reports"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status_reports",
-          "count"
-        ],
-        "title": "GetAllStatusReportsResponse",
-        "description": "Get all status reports response"
-      },
       "GetOnlineWorkersResponse": {
         "properties": {
           "online_workers": {
@@ -1038,17 +964,11 @@
             "type": "array",
             "title": "Online Workers",
             "description": "List of online worker UUIDs"
-          },
-          "count": {
-            "type": "integer",
-            "title": "Count",
-            "description": "Number of online workers"
           }
         },
         "type": "object",
         "required": [
-          "online_workers",
-          "count"
+          "online_workers"
         ],
         "title": "GetOnlineWorkersResponse",
         "description": "Get online workers response"
@@ -1092,8 +1012,11 @@
             "description": "Worker note"
           },
           "status": {
-            "type": "string",
-            "title": "Status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WorkerStatus"
+              }
+            ],
             "description": "Worker status"
           },
           "last_heartbeat": {
@@ -1140,11 +1063,6 @@
             "title": "Worker Uuid",
             "description": "Worker UUID"
           },
-          "status": {
-            "type": "string",
-            "title": "Status",
-            "description": "Heartbeat status"
-          },
           "last_update": {
             "anyOf": [
               {
@@ -1172,8 +1090,7 @@
         },
         "type": "object",
         "required": [
-          "worker_uuid",
-          "status"
+          "worker_uuid"
         ],
         "title": "GetWorkerHeartbeatResponse",
         "description": "Get worker heartbeat response"
@@ -1186,8 +1103,11 @@
             "description": "Worker UUID"
           },
           "status": {
-            "type": "string",
-            "title": "Status",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ReportStatus"
+              }
+            ],
             "description": "Status report status"
           },
           "timestamp": {
@@ -1335,13 +1255,12 @@
           "worker_status": {
             "anyOf": [
               {
-                "type": "string"
+                "$ref": "#/components/schemas/WorkerStatus"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Worker Status",
             "description": "Current worker status"
           },
           "request_id": {
@@ -1357,8 +1276,11 @@
             "description": "Refresh request ID"
           },
           "action": {
-            "type": "string",
-            "title": "Action",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ActionStatus"
+              }
+            ],
             "description": "Action taken"
           }
         },
@@ -1480,6 +1402,15 @@
         ],
         "title": "RemoveWorkerResponse",
         "description": "Remove worker response"
+      },
+      "ReportStatus": {
+        "type": "string",
+        "enum": [
+          "available",
+          "no_report"
+        ],
+        "title": "ReportStatus",
+        "description": "Status report availability enumeration"
       },
       "SendHeartbeatRequest": {
         "properties": {
@@ -1642,9 +1573,12 @@
       "StartBrowserResponse": {
         "properties": {
           "status": {
-            "type": "string",
-            "title": "Status",
-            "description": "Command status: 'ok', 'failed', 'no_worker'"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiStatus"
+              }
+            ],
+            "description": "Command status"
           },
           "country_code": {
             "type": "string",
@@ -1664,34 +1598,70 @@
             "description": "Error details if failed"
           },
           "resource_uuid": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Resource Uuid",
             "description": "Resource UUID"
           },
           "connection_ip": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connection Ip",
             "description": "Connection IP"
           },
           "connection_port": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connection Port",
             "description": "Connection port"
           },
           "password": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Password",
             "description": "Password"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
           }
         },
         "type": "object",
         "required": [
           "status",
-          "country_code",
-          "resource_uuid",
-          "connection_ip",
-          "connection_port",
-          "password"
+          "country_code"
         ],
         "title": "StartBrowserResponse",
         "description": "Response model for start browser command"
@@ -1737,73 +1707,6 @@
         ],
         "title": "UpdateWorkerNoteResponse",
         "description": "Update worker note response"
-      },
-      "UpdateWorkerRequest": {
-        "properties": {
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note"
-          }
-        },
-        "type": "object",
-        "title": "UpdateWorkerRequest",
-        "description": "Update worker request"
-      },
-      "UpdateWorkerResponse": {
-        "properties": {
-          "uuid": {
-            "type": "string",
-            "title": "Uuid",
-            "description": "Worker UUID"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Worker name"
-          },
-          "type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/WorkerType"
-              }
-            ],
-            "description": "Worker type"
-          },
-          "registered_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Registered At",
-            "description": "Registration timestamp"
-          },
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note",
-            "description": "Worker note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "uuid",
-          "name",
-          "type",
-          "registered_at"
-        ],
-        "title": "UpdateWorkerResponse",
-        "description": "Update worker response"
       },
       "ValidationError": {
         "properties": {
@@ -1877,9 +1780,12 @@
             "description": "Worker note"
           },
           "status": {
-            "type": "string",
-            "title": "Status",
-            "description": "Worker status (online/offline)"
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WorkerStatus"
+              }
+            ],
+            "description": "Worker status"
           }
         },
         "type": "object",
@@ -1993,6 +1899,16 @@
         ],
         "title": "WorkerRuntime",
         "description": "Worker runtime information"
+      },
+      "WorkerStatus": {
+        "type": "string",
+        "enum": [
+          "online",
+          "offline",
+          "unknown"
+        ],
+        "title": "WorkerStatus",
+        "description": "Worker online status enumeration"
       },
       "WorkerType": {
         "type": "string",

@@ -20,4 +20,4 @@ The API provides middleware services for the Fingerprint Browser Automation Syst
 
 ## Last Updated
 
-Generated on: $(date -u '+%Y-%m-%d %H:%M:%S UTC')
+Generated on: 2025-06-13 17:05:32 CST
