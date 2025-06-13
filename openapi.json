@@ -22,7 +22,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/src__api__workers_models__WorkerType"
+                  "$ref": "#/components/schemas/WorkerType"
                 },
                 {
                   "type": "null"
@@ -67,7 +67,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkersListResponse"
+                  "$ref": "#/components/schemas/GetWorkersResponse"
                 }
               }
             }
@@ -91,7 +91,7 @@
           "dashboard"
         ],
         "summary": "Get Worker Details",
-        "description": "Get specific worker details",
+        "description": "Get detailed information about a specific worker",
         "operationId": "get_worker_details_api_v1_dashboard_workers__uuid__get",
         "parameters": [
           {
@@ -111,7 +111,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerDetailResponse"
+                  "$ref": "#/components/schemas/GetWorkerDetailsResponse"
                 }
               }
             }
@@ -133,7 +133,7 @@
           "dashboard"
         ],
         "summary": "Update Worker Info",
-        "description": "Update worker information (note, etc.)",
+        "description": "Update worker information",
         "operationId": "update_worker_info_api_v1_dashboard_workers__uuid__patch",
         "parameters": [
           {
@@ -152,7 +152,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerUpdate"
+                "$ref": "#/components/schemas/UpdateWorkerRequest"
               }
             }
           }
@@ -163,7 +163,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerUpdateResponse"
+                  "$ref": "#/components/schemas/UpdateWorkerResponse"
                 }
               }
             }
@@ -185,7 +185,7 @@
           "dashboard"
         ],
         "summary": "Remove Worker",
-        "description": "Remove worker from registry and Redis",
+        "description": "Remove a worker from the system",
         "operationId": "remove_worker_api_v1_dashboard_workers__uuid__delete",
         "parameters": [
           {
@@ -205,7 +205,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SimpleMessageResponse"
+                  "$ref": "#/components/schemas/RemoveWorkerResponse"
                 }
               }
             }
@@ -229,7 +229,7 @@
           "dashboard"
         ],
         "summary": "Update Worker Note",
-        "description": "Update worker note\n\nRequest Body: {\"note\": \"string\"}",
+        "description": "Update worker note",
         "operationId": "update_worker_note_api_v1_dashboard_workers__uuid__note_patch",
         "parameters": [
           {
@@ -248,7 +248,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerNoteUpdateRequest"
+                "$ref": "#/components/schemas/UpdateWorkerNoteRequest"
               }
             }
           }
@@ -259,7 +259,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerNoteUpdateResponse"
+                  "$ref": "#/components/schemas/UpdateWorkerNoteResponse"
                 }
               }
             }
@@ -283,7 +283,7 @@
           "dashboard"
         ],
         "summary": "Get Worker Heartbeat",
-        "description": "Get worker heartbeat status from Redis TTL\n\nReturns current heartbeat status with TTL information",
+        "description": "Get worker heartbeat status",
         "operationId": "get_worker_heartbeat_api_v1_dashboard_workers__uuid__heartbeat_get",
         "parameters": [
           {
@@ -303,7 +303,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HeartbeatStatusResponse"
+                  "$ref": "#/components/schemas/GetWorkerHeartbeatResponse"
                 }
               }
             }
@@ -327,7 +327,7 @@
           "dashboard"
         ],
         "summary": "Get Online Workers",
-        "description": "Get list of all currently online workers",
+        "description": "Get list of online workers",
         "operationId": "get_online_workers_api_v1_dashboard_workers_online_get",
         "responses": {
           "200": {
@@ -335,7 +335,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OnlineWorkersResponse"
+                  "$ref": "#/components/schemas/GetOnlineWorkersResponse"
                 }
               }
             }
@@ -349,7 +349,7 @@
           "dashboard"
         ],
         "summary": "Get Worker Status Report",
-        "description": "Get worker status report from Redis\n\nReturns complete worker status including metadata and runtime information",
+        "description": "Get worker status report",
         "operationId": "get_worker_status_report_api_v1_dashboard_workers__uuid__status_get",
         "parameters": [
           {
@@ -369,7 +369,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerStatusReportResponse"
+                  "$ref": "#/components/schemas/GetWorkerStatusReportResponse"
                 }
               }
             }
@@ -393,7 +393,7 @@
           "dashboard"
         ],
         "summary": "Get All Workers Status Reports",
-        "description": "Get status reports for all workers\n\nReturns dict of worker UUIDs to their status reports",
+        "description": "Get all workers status reports",
         "operationId": "get_all_workers_status_reports_api_v1_dashboard_workers_status_all_get",
         "responses": {
           "200": {
@@ -401,7 +401,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AllStatusReportsResponse"
+                  "$ref": "#/components/schemas/GetAllStatusReportsResponse"
                 }
               }
             }
@@ -415,7 +415,7 @@
           "dashboard"
         ],
         "summary": "Refresh Worker Status",
-        "description": "Request worker to refresh its status report\n\nSends a message via RabbitMQ to trigger worker status refresh",
+        "description": "Request worker to refresh its status",
         "operationId": "refresh_worker_status_api_v1_dashboard_workers__uuid__status_refresh_post",
         "parameters": [
           {
@@ -435,7 +435,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StatusRefreshResponse"
+                  "$ref": "#/components/schemas/RefreshWorkerStatusResponse"
                 }
               }
             }
@@ -465,7 +465,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerCreate"
+                "$ref": "#/components/schemas/RegisterWorkerRequest"
               }
             }
           },
@@ -477,7 +477,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegistrationResponse"
+                  "$ref": "#/components/schemas/RegisterWorkerResponse"
                 }
               }
             }
@@ -520,7 +520,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/HeartbeatData"
+                "$ref": "#/components/schemas/SendHeartbeatRequest"
               }
             }
           }
@@ -531,7 +531,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HeartbeatResponse"
+                  "$ref": "#/components/schemas/SendHeartbeatResponse"
                 }
               }
             }
@@ -567,24 +567,25 @@
               "format": "uuid",
               "title": "Uuid"
             }
-          },
-          {
-            "name": "task",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Task"
-            }
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AppendTaskRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Successful Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AppendWorkerTaskResponse"
+                  "$ref": "#/components/schemas/AppendTaskResponse"
                 }
               }
             }
@@ -608,7 +609,7 @@
           "workers"
         ],
         "summary": "Worker Status Report",
-        "description": "Worker status report submission\n\nWorker submits complete status including metadata and runtime information",
+        "description": "Worker status report submission",
         "operationId": "worker_status_report_api_v1_workers__uuid__status_post",
         "parameters": [
           {
@@ -627,7 +628,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerStatusReport"
+                "$ref": "#/components/schemas/SendStatusReportRequest"
               }
             }
           }
@@ -638,7 +639,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StatusReportResponse"
+                  "$ref": "#/components/schemas/SendStatusReportResponse"
                 }
               }
             }
@@ -734,42 +735,43 @@
   },
   "components": {
     "schemas": {
-      "AllStatusReportsResponse": {
+      "AppendTaskRequest": {
         "properties": {
-          "status_reports": {
-            "type": "object",
-            "title": "Status Reports",
-            "description": "Status reports by worker UUID"
+          "source_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Source Worker Uuid"
           },
-          "count": {
-            "type": "integer",
-            "title": "Count",
-            "description": "Number of status reports"
+          "task": {
+            "type": "string",
+            "title": "Task"
           }
         },
         "type": "object",
         "required": [
-          "status_reports",
-          "count"
+          "source_worker_uuid",
+          "task"
         ],
-        "title": "AllStatusReportsResponse",
-        "description": "Response for all status reports endpoint"
+        "title": "AppendTaskRequest",
+        "description": "Append task to worker request"
       },
-      "AppendWorkerTaskResponse": {
+      "AppendTaskResponse": {
         "properties": {
           "work_current_tasks": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Work Current Tasks"
+            "title": "Work Current Tasks",
+            "description": "Current tasks"
           }
         },
         "type": "object",
         "required": [
           "work_current_tasks"
         ],
-        "title": "AppendWorkerTaskResponse"
+        "title": "AppendTaskResponse",
+        "description": "Append task to worker response"
       },
       "BrowserInstanceInfo": {
         "properties": {
@@ -827,48 +829,95 @@
         "title": "BrowserInstanceInfo",
         "description": "Browser instance runtime information"
       },
-      "HTTPValidationError": {
+      "GetAllStatusReportsResponse": {
         "properties": {
-          "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
-            "type": "array",
-            "title": "Detail"
+          "status_reports": {
+            "type": "object",
+            "title": "Status Reports",
+            "description": "Status reports by worker UUID"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "Number of status reports"
           }
         },
         "type": "object",
-        "title": "HTTPValidationError"
+        "required": [
+          "status_reports",
+          "count"
+        ],
+        "title": "GetAllStatusReportsResponse",
+        "description": "Get all status reports response"
       },
-      "HeartbeatData": {
+      "GetOnlineWorkersResponse": {
         "properties": {
-          "heartbeat_interval": {
+          "online_workers": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Online Workers",
+            "description": "List of online worker UUIDs"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "Number of online workers"
+          }
+        },
+        "type": "object",
+        "required": [
+          "online_workers",
+          "count"
+        ],
+        "title": "GetOnlineWorkersResponse",
+        "description": "Get online workers response"
+      },
+      "GetWorkerDetailsResponse": {
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "title": "Uuid",
+            "description": "Worker UUID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Worker name"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WorkerType"
+              }
+            ],
+            "description": "Worker type"
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Registered At",
+            "description": "Registration timestamp"
+          },
+          "note": {
             "anyOf": [
               {
-                "type": "integer",
-                "maximum": 300.0,
-                "minimum": 10.0
+                "type": "string"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Heartbeat Interval",
-            "description": "Heartbeat interval in seconds",
-            "default": 60
-          }
-        },
-        "type": "object",
-        "title": "HeartbeatData",
-        "description": "Heartbeat data from worker - Compatible with existing fpb-desktop format"
-      },
-      "HeartbeatResponse": {
-        "properties": {
+            "title": "Note",
+            "description": "Worker note"
+          },
           "status": {
             "type": "string",
-            "title": "Status"
+            "title": "Status",
+            "description": "Worker status"
           },
-          "last_update": {
+          "last_heartbeat": {
             "anyOf": [
               {
                 "type": "string",
@@ -878,7 +927,8 @@
                 "type": "null"
               }
             ],
-            "title": "Last Update"
+            "title": "Last Heartbeat",
+            "description": "Last heartbeat timestamp"
           },
           "ttl_seconds": {
             "anyOf": [
@@ -889,16 +939,22 @@
                 "type": "null"
               }
             ],
-            "title": "Ttl Seconds"
+            "title": "Ttl Seconds",
+            "description": "TTL in seconds"
           }
         },
         "type": "object",
         "required": [
+          "uuid",
+          "name",
+          "type",
+          "registered_at",
           "status"
         ],
-        "title": "HeartbeatResponse"
+        "title": "GetWorkerDetailsResponse",
+        "description": "Get worker details response"
       },
-      "HeartbeatStatusResponse": {
+      "GetWorkerHeartbeatResponse": {
         "properties": {
           "worker_uuid": {
             "type": "string",
@@ -940,32 +996,117 @@
           "worker_uuid",
           "status"
         ],
-        "title": "HeartbeatStatusResponse",
-        "description": "Worker heartbeat status response"
+        "title": "GetWorkerHeartbeatResponse",
+        "description": "Get worker heartbeat response"
       },
-      "OnlineWorkersResponse": {
+      "GetWorkerStatusReportResponse": {
         "properties": {
-          "online_workers": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Online Workers",
-            "description": "List of online worker UUIDs"
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Worker UUID"
           },
-          "count": {
-            "type": "integer",
-            "title": "Count",
-            "description": "Number of online workers"
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Status report status"
+          },
+          "timestamp": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timestamp",
+            "description": "Report timestamp"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Worker metadata"
+          },
+          "runtime": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Runtime",
+            "description": "Runtime information"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
           }
         },
         "type": "object",
         "required": [
-          "online_workers",
-          "count"
+          "worker_uuid",
+          "status"
         ],
-        "title": "OnlineWorkersResponse",
-        "description": "Response for online workers endpoint"
+        "title": "GetWorkerStatusReportResponse",
+        "description": "Get worker status report response"
+      },
+      "GetWorkersResponse": {
+        "properties": {
+          "workers": {
+            "items": {
+              "$ref": "#/components/schemas/WorkerInfo"
+            },
+            "type": "array",
+            "title": "Workers",
+            "description": "List of workers"
+          },
+          "pagination": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationInfo"
+              }
+            ],
+            "description": "Pagination information"
+          }
+        },
+        "type": "object",
+        "required": [
+          "workers",
+          "pagination"
+        ],
+        "title": "GetWorkersResponse",
+        "description": "Get workers list response"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
       },
       "PaginationInfo": {
         "properties": {
@@ -1000,7 +1141,96 @@
         "title": "PaginationInfo",
         "description": "Pagination metadata"
       },
-      "RegistrationResponse": {
+      "RefreshWorkerStatusResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Refresh status message"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Worker UUID"
+          },
+          "worker_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worker Status",
+            "description": "Current worker status"
+          },
+          "request_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Request Id",
+            "description": "Refresh request ID"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action",
+            "description": "Action taken"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "worker_uuid",
+          "action"
+        ],
+        "title": "RefreshWorkerStatusResponse",
+        "description": "Refresh worker status response"
+      },
+      "RegisterWorkerRequest": {
+        "properties": {
+          "worker_uuid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worker Uuid"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Name"
+          },
+          "worker_type": {
+            "$ref": "#/components/schemas/WorkerType"
+          },
+          "is_reconnection": {
+            "type": "boolean",
+            "title": "Is Reconnection",
+            "description": "Whether this is a reconnection",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "worker_type"
+        ],
+        "title": "RegisterWorkerRequest",
+        "description": "Worker registration request"
+      },
+      "RegisterWorkerResponse": {
         "properties": {
           "message": {
             "type": "string",
@@ -1054,23 +1284,166 @@
           "message",
           "worker_uuid"
         ],
-        "title": "RegistrationResponse",
+        "title": "RegisterWorkerResponse",
         "description": "Worker registration response"
       },
-      "SimpleMessageResponse": {
+      "RemoveWorkerResponse": {
         "properties": {
           "message": {
             "type": "string",
             "title": "Message",
-            "description": "Response message"
+            "description": "Removal status message"
           }
         },
         "type": "object",
         "required": [
           "message"
         ],
-        "title": "SimpleMessageResponse",
-        "description": "Simple message response"
+        "title": "RemoveWorkerResponse",
+        "description": "Remove worker response"
+      },
+      "SendHeartbeatRequest": {
+        "properties": {
+          "heartbeat_interval": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 300.0,
+                "minimum": 10.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Heartbeat Interval",
+            "description": "Heartbeat interval in seconds",
+            "default": 60
+          }
+        },
+        "type": "object",
+        "title": "SendHeartbeatRequest",
+        "description": "Worker heartbeat request"
+      },
+      "SendHeartbeatResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Heartbeat status message"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Worker UUID"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "Update timestamp"
+          },
+          "ttl_seconds": {
+            "type": "integer",
+            "title": "Ttl Seconds",
+            "description": "TTL in seconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "worker_uuid",
+          "timestamp",
+          "ttl_seconds"
+        ],
+        "title": "SendHeartbeatResponse",
+        "description": "Worker heartbeat response"
+      },
+      "SendStatusReportRequest": {
+        "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "worker_type": {
+            "type": "string",
+            "title": "Worker Type"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/WorkerMetadata"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/WorkerRuntime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "worker_uuid",
+          "worker_type",
+          "timestamp",
+          "metadata",
+          "runtime"
+        ],
+        "title": "SendStatusReportRequest",
+        "description": "Worker status report request"
+      },
+      "SendStatusReportResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Status update message"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Worker UUID"
+          },
+          "timestamp": {
+            "type": "string",
+            "title": "Timestamp",
+            "description": "Report timestamp"
+          },
+          "metadata_updated": {
+            "type": "boolean",
+            "title": "Metadata Updated",
+            "description": "Whether metadata was updated"
+          },
+          "runtime_updated": {
+            "type": "boolean",
+            "title": "Runtime Updated",
+            "description": "Whether runtime info was updated"
+          },
+          "tasks": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tasks",
+            "description": "Tasks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "worker_uuid",
+          "timestamp",
+          "metadata_updated",
+          "runtime_updated"
+        ],
+        "title": "SendStatusReportResponse",
+        "description": "Worker status report response"
       },
       "StartBrowserRequest": {
         "properties": {
@@ -1144,110 +1517,114 @@
         "title": "StartBrowserResponse",
         "description": "Response model for start browser command"
       },
-      "StatusRefreshResponse": {
+      "UpdateWorkerNoteRequest": {
         "properties": {
-          "message": {
+          "note": {
             "type": "string",
-            "title": "Message",
-            "description": "Refresh status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "worker_status": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Worker Status",
-            "description": "Current worker status"
-          },
-          "request_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Request Id",
-            "description": "Refresh request ID"
-          },
-          "action": {
-            "type": "string",
-            "title": "Action",
-            "description": "Action taken"
+            "title": "Note",
+            "description": "New note for the worker"
           }
         },
         "type": "object",
         "required": [
-          "message",
-          "worker_uuid",
-          "action"
+          "note"
         ],
-        "title": "StatusRefreshResponse",
-        "description": "Response for status refresh request"
+        "title": "UpdateWorkerNoteRequest",
+        "description": "Update worker note request"
       },
-      "StatusReportResponse": {
+      "UpdateWorkerNoteResponse": {
         "properties": {
           "message": {
             "type": "string",
             "title": "Message",
-            "description": "Status update message"
+            "description": "Update status message"
           },
           "worker_uuid": {
             "type": "string",
             "title": "Worker Uuid",
             "description": "Worker UUID"
           },
-          "timestamp": {
+          "note": {
             "type": "string",
-            "title": "Timestamp",
-            "description": "Report timestamp"
-          },
-          "metadata_updated": {
-            "type": "boolean",
-            "title": "Metadata Updated",
-            "description": "Whether metadata was updated"
-          },
-          "runtime_updated": {
-            "type": "boolean",
-            "title": "Runtime Updated",
-            "description": "Whether runtime info was updated"
-          },
-          "tasks": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tasks",
-            "description": "Tasks"
+            "title": "Note",
+            "description": "Updated note"
           }
         },
         "type": "object",
         "required": [
           "message",
           "worker_uuid",
-          "timestamp",
-          "metadata_updated",
-          "runtime_updated"
+          "note"
         ],
-        "title": "StatusReportResponse",
-        "description": "Worker status report response"
+        "title": "UpdateWorkerNoteResponse",
+        "description": "Update worker note response"
+      },
+      "UpdateWorkerRequest": {
+        "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          }
+        },
+        "type": "object",
+        "title": "UpdateWorkerRequest",
+        "description": "Update worker request"
+      },
+      "UpdateWorkerResponse": {
+        "properties": {
+          "uuid": {
+            "type": "string",
+            "title": "Uuid",
+            "description": "Worker UUID"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Worker name"
+          },
+          "type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/WorkerType"
+              }
+            ],
+            "description": "Worker type"
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Registered At",
+            "description": "Registration timestamp"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note",
+            "description": "Worker note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uuid",
+          "name",
+          "type",
+          "registered_at"
+        ],
+        "title": "UpdateWorkerResponse",
+        "description": "Update worker response"
       },
       "ValidationError": {
         "properties": {
@@ -1282,124 +1659,6 @@
         ],
         "title": "ValidationError"
       },
-      "WorkerCreate": {
-        "properties": {
-          "worker_uuid": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Worker Uuid"
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
-            "title": "Name"
-          },
-          "worker_type": {
-            "$ref": "#/components/schemas/src__models__worker__WorkerType"
-          },
-          "is_reconnection": {
-            "type": "boolean",
-            "title": "Is Reconnection",
-            "description": "Whether this is a reconnection",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "worker_type"
-        ],
-        "title": "WorkerCreate",
-        "description": "Worker creation model"
-      },
-      "WorkerDetailResponse": {
-        "properties": {
-          "uuid": {
-            "type": "string",
-            "title": "Uuid",
-            "description": "Worker UUID"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Worker name"
-          },
-          "type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/WorkerType-Output"
-              }
-            ],
-            "description": "Worker type"
-          },
-          "registered_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Registered At",
-            "description": "Registration timestamp"
-          },
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note",
-            "description": "Worker note"
-          },
-          "status": {
-            "type": "string",
-            "title": "Status",
-            "description": "Worker status"
-          },
-          "last_heartbeat": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Heartbeat",
-            "description": "Last heartbeat timestamp"
-          },
-          "ttl_seconds": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Ttl Seconds",
-            "description": "TTL in seconds"
-          }
-        },
-        "type": "object",
-        "required": [
-          "uuid",
-          "name",
-          "type",
-          "registered_at",
-          "status"
-        ],
-        "title": "WorkerDetailResponse",
-        "description": "Response for worker detail endpoint"
-      },
       "WorkerInfo": {
         "properties": {
           "uuid": {
@@ -1415,7 +1674,7 @@
           "type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerType-Output"
+                "$ref": "#/components/schemas/WorkerType"
               }
             ],
             "description": "Worker type"
@@ -1501,49 +1760,7 @@
           "startup_time"
         ],
         "title": "WorkerMetadata",
-        "description": "Worker metadata - Static information that doesn't change frequently"
-      },
-      "WorkerNoteUpdateRequest": {
-        "properties": {
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "New note for the worker"
-          }
-        },
-        "type": "object",
-        "required": [
-          "note"
-        ],
-        "title": "WorkerNoteUpdateRequest",
-        "description": "Request model for updating worker note"
-      },
-      "WorkerNoteUpdateResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Update status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "Updated note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "worker_uuid",
-          "note"
-        ],
-        "title": "WorkerNoteUpdateResponse",
-        "description": "Response for worker note update"
+        "description": "Worker metadata"
       },
       "WorkerRuntime": {
         "properties": {
@@ -1596,222 +1813,9 @@
           "uptime_seconds"
         ],
         "title": "WorkerRuntime",
-        "description": "Worker runtime information - Dynamic information that changes frequently"
+        "description": "Worker runtime information"
       },
-      "WorkerStatusReport": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Worker Uuid"
-          },
-          "worker_type": {
-            "type": "string",
-            "title": "Worker Type"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Timestamp"
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/WorkerMetadata"
-          },
-          "runtime": {
-            "$ref": "#/components/schemas/WorkerRuntime"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "worker_type",
-          "timestamp",
-          "metadata",
-          "runtime"
-        ],
-        "title": "WorkerStatusReport",
-        "description": "Complete worker status report"
-      },
-      "WorkerStatusReportResponse": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "status": {
-            "type": "string",
-            "title": "Status",
-            "description": "Status report status"
-          },
-          "timestamp": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timestamp",
-            "description": "Report timestamp"
-          },
-          "metadata": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Metadata",
-            "description": "Worker metadata"
-          },
-          "runtime": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Runtime",
-            "description": "Runtime information"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "status"
-        ],
-        "title": "WorkerStatusReportResponse",
-        "description": "Worker status report response"
-      },
-      "WorkerType-Output": {
-        "type": "string",
-        "enum": [
-          "fpb_desktop",
-          "notification_mobile"
-        ],
-        "title": "WorkerType"
-      },
-      "WorkerUpdate": {
-        "properties": {
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note"
-          }
-        },
-        "type": "object",
-        "title": "WorkerUpdate",
-        "description": "Worker update model"
-      },
-      "WorkerUpdateResponse": {
-        "properties": {
-          "uuid": {
-            "type": "string",
-            "title": "Uuid",
-            "description": "Worker UUID"
-          },
-          "name": {
-            "type": "string",
-            "title": "Name",
-            "description": "Worker name"
-          },
-          "type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/WorkerType-Output"
-              }
-            ],
-            "description": "Worker type"
-          },
-          "registered_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Registered At",
-            "description": "Registration timestamp"
-          },
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note",
-            "description": "Worker note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "uuid",
-          "name",
-          "type",
-          "registered_at"
-        ],
-        "title": "WorkerUpdateResponse",
-        "description": "Response for worker update endpoint"
-      },
-      "WorkersListResponse": {
-        "properties": {
-          "workers": {
-            "items": {
-              "$ref": "#/components/schemas/WorkerInfo"
-            },
-            "type": "array",
-            "title": "Workers",
-            "description": "List of workers"
-          },
-          "pagination": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/PaginationInfo"
-              }
-            ],
-            "description": "Pagination information"
-          }
-        },
-        "type": "object",
-        "required": [
-          "workers",
-          "pagination"
-        ],
-        "title": "WorkersListResponse",
-        "description": "Response for workers list endpoint"
-      },
-      "src__api__workers_models__WorkerType": {
-        "type": "string",
-        "enum": [
-          "fpb_desktop",
-          "notification_mobile"
-        ],
-        "title": "WorkerType"
-      },
-      "src__models__worker__WorkerType": {
+      "WorkerType": {
         "type": "string",
         "enum": [
           "fpb_desktop",
