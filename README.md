@@ -1,6 +1,6 @@
 # X-Monitor API Documentation
 
-This repository contains the automatically generated API documentation for the X-Monitor Message Service.
+This repository contains the automatically generated API documentation for the X-Monitor execution service.
 
 ## Available Documentation
 

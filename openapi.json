@@ -1,8 +1,8 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Message Service",
-    "description": "Middleware layer for Fingerprint Browser Automation System",
+    "title": "Execution service",
+    "description": "Execution layer for Fingerprint Browser Automation System",
     "version": "1.0.0"
   },
   "paths": {
