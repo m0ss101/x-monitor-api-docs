@@ -485,14 +485,14 @@
         }
       }
     },
-    "/api/v1/crawler/{uuid}/submit-task": {
+    "/api/v1/crawler/{uuid}/task": {
       "post": {
         "tags": [
           "crawler"
         ],
         "summary": "Submit Task",
         "description": "Submit task to worker",
-        "operationId": "submit_task_api_v1_crawler__uuid__submit_task_post",
+        "operationId": "submit_task_api_v1_crawler__uuid__task_post",
         "parameters": [
           {
             "name": "uuid",
@@ -524,6 +524,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SubmitTaskResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crawler/terminate-browser": {
+      "post": {
+        "tags": [
+          "crawler"
+        ],
+        "summary": "Terminate Browser",
+        "description": "Terminate browser",
+        "operationId": "terminate_browser_api_v1_crawler_terminate_browser_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminateBrowserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TerminateBrowserResponse"
                 }
               }
             }
@@ -1409,10 +1451,15 @@
             "title": "Worker Uuid",
             "description": "Target worker UUID"
           },
-          "task": {
+          "task_id": {
             "type": "string",
-            "title": "Task",
-            "description": "Task to submit"
+            "title": "Task Id",
+            "description": "Task ID"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name",
+            "description": "Task name"
           },
           "message": {
             "anyOf": [
@@ -1431,10 +1478,64 @@
         "required": [
           "status",
           "worker_uuid",
-          "task"
+          "task_id",
+          "task_name"
         ],
         "title": "SubmitTaskResponse",
         "description": "Response model for submit task command"
+      },
+      "TerminateBrowserRequest": {
+        "properties": {
+          "resource_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Resource Uuid",
+            "description": "Resource UUID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "resource_uuid"
+        ],
+        "title": "TerminateBrowserRequest",
+        "description": "Request model for terminating browsers"
+      },
+      "TerminateBrowserResponse": {
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiStatus"
+              }
+            ],
+            "description": "Command status"
+          },
+          "resource_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Resource Uuid",
+            "description": "Resource UUID"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "resource_uuid"
+        ],
+        "title": "TerminateBrowserResponse",
+        "description": "Response model for terminate browser command"
       },
       "UpdateWorkerNoteRequest": {
         "properties": {
