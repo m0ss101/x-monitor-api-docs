@@ -291,14 +291,14 @@
         }
       }
     },
-    "/api/v1/dashboard/workers/{uuid}/status": {
+    "/api/v1/dashboard/workers/{uuid}/report": {
       "get": {
         "tags": [
           "dashboard"
         ],
         "summary": "Get Worker Status Report",
         "description": "Get worker status report",
-        "operationId": "get_worker_status_report_api_v1_dashboard_workers__uuid__status_get",
+        "operationId": "get_worker_status_report_api_v1_dashboard_workers__uuid__report_get",
         "parameters": [
           {
             "name": "uuid",
@@ -431,68 +431,14 @@
         }
       }
     },
-    "/api/v1/workers/{uuid}/append_task": {
-      "post": {
-        "tags": [
-          "workers"
-        ],
-        "summary": "Append Worker Task",
-        "description": "Append task to worker",
-        "operationId": "append_worker_task_api_v1_workers__uuid__append_task_post",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AppendTaskRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AppendTaskResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/workers/{uuid}/status": {
+    "/api/v1/workers/{uuid}/report": {
       "post": {
         "tags": [
           "workers"
         ],
         "summary": "Worker Status Report",
         "description": "Worker status report submission",
-        "operationId": "worker_status_report_api_v1_workers__uuid__status_post",
+        "operationId": "worker_status_report_api_v1_workers__uuid__report_post",
         "parameters": [
           {
             "name": "uuid",
@@ -522,6 +468,62 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SendStatusReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crawler/{uuid}/submit-task": {
+      "post": {
+        "tags": [
+          "crawler"
+        ],
+        "summary": "Submit Task",
+        "description": "Submit task to worker",
+        "operationId": "submit_task_api_v1_crawler__uuid__submit_task_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Uuid"
+            },
+            "description": "Worker UUID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitTaskResponse"
                 }
               }
             }
@@ -629,44 +631,6 @@
         "title": "ApiStatus",
         "description": "API response status enumeration"
       },
-      "AppendTaskRequest": {
-        "properties": {
-          "source_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Source Worker Uuid"
-          },
-          "task": {
-            "type": "string",
-            "title": "Task"
-          }
-        },
-        "type": "object",
-        "required": [
-          "source_worker_uuid",
-          "task"
-        ],
-        "title": "AppendTaskRequest",
-        "description": "Append task to worker request"
-      },
-      "AppendTaskResponse": {
-        "properties": {
-          "work_current_tasks": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Work Current Tasks",
-            "description": "Current tasks"
-          }
-        },
-        "type": "object",
-        "required": [
-          "work_current_tasks"
-        ],
-        "title": "AppendTaskResponse",
-        "description": "Append task to worker response"
-      },
       "BrowserInstanceInfo": {
         "properties": {
           "pid": {
@@ -732,17 +696,11 @@
             "type": "array",
             "title": "Online Workers",
             "description": "List of online worker UUIDs"
-          },
-          "count": {
-            "type": "integer",
-            "title": "Count",
-            "description": "Number of online workers"
           }
         },
         "type": "object",
         "required": [
-          "online_workers",
-          "count"
+          "online_workers"
         ],
         "title": "GetOnlineWorkersResponse",
         "description": "Get online workers response"
@@ -1301,6 +1259,21 @@
             "type": "string",
             "title": "Country Code",
             "description": "ISO country code (e.g., 'US', 'CN', 'JP')"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters",
+            "description": "Additional parameters for the browser"
           }
         },
         "type": "object",
@@ -1405,6 +1378,63 @@
         ],
         "title": "StartBrowserResponse",
         "description": "Response model for start browser command"
+      },
+      "SubmitTaskRequest": {
+        "properties": {
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "description": "Task to submit"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task"
+        ],
+        "title": "SubmitTaskRequest",
+        "description": "Request model for submitting tasks"
+      },
+      "SubmitTaskResponse": {
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiStatus"
+              }
+            ],
+            "description": "Command status"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Target worker UUID"
+          },
+          "task": {
+            "type": "string",
+            "title": "Task",
+            "description": "Task to submit"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "worker_uuid",
+          "task"
+        ],
+        "title": "SubmitTaskResponse",
+        "description": "Response model for submit task command"
       },
       "UpdateWorkerNoteRequest": {
         "properties": {
