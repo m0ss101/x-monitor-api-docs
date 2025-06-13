@@ -1,29 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Execution service API Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execution Service API Documentation</title>
     <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+    <link rel="icon" type="image/png" href="https://fastapi.tiangolo.com/img/favicon.png">
     <style>
-        html {
-            box-sizing: border-box;
-            overflow: -moz-scrollbars-vertical;
-            overflow-y: scroll;
+        :root {
+            --primary-color: #1f2937;
+            --secondary-color: #374151;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+            --background-color: #f8fafc;
+            --surface-color: #ffffff;
+            --border-color: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
         }
-        
-        *, *:before, *:after {
-            box-sizing: inherit;
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            overflow-y: scroll;
+            font-size: 16px;
         }
         
         body {
-            margin:0;
-            background: #fafafa;
+            margin: 0;
+            padding: 0;
+            background: var(--background-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 2rem 2rem 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="20" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            margin: 0 0 0.5rem 0;
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .header .subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0 0 1rem 0;
+            font-weight: 400;
+        }
+
+        .timestamp {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+        }
+
+        .timestamp::before {
+            content: '🕒';
+            font-size: 1rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .swagger-ui .topbar {
+            display: none;
+        }
+
+        .swagger-ui .info {
+            margin: 2rem 0;
+        }
+
+        .swagger-ui .scheme-container {
+            background: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .footer {
+            background: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 3rem;
+        }
+
+        .footer a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1.5rem 1rem 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.875rem;
+            }
+            
+            .header .subtitle {
+                font-size: 1rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div id="swagger-ui"></div>
+    <div class="header">
+        <div class="header-content">
+            <h1>Execution Service API</h1>
+            <p class="subtitle">RESTful API for worker management and browser automation</p>
+            <div class="timestamp">Last updated: 2025-06-13 16:25:25 (Asia/Shanghai)</div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div id="swagger-ui"></div>
+    </div>
+    
+    <div class="footer">
+        <p>Generated with ❤️ using <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a> and <a href="https://swagger.io/tools/swagger-ui/" target="_blank">Swagger UI</a></p>
+    </div>
     
     <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
     <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
@@ -1859,6 +2007,7 @@
   }
 };
         
+        // Enhanced Swagger UI configuration
         const ui = SwaggerUIBundle({
             spec: spec,
             dom_id: '#swagger-ui',
@@ -1870,7 +2019,37 @@
             plugins: [
                 SwaggerUIBundle.plugins.DownloadUrl
             ],
-            layout: "StandaloneLayout"
+            layout: "StandaloneLayout",
+            defaultModelsExpandDepth: 1,
+            defaultModelExpandDepth: 1,
+            docExpansion: "list",
+            filter: true,
+            showExtensions: true,
+            showCommonExtensions: true,
+            tryItOutEnabled: true,
+            requestInterceptor: (request) => {
+                // Add custom headers if needed
+                return request;
+            },
+            responseInterceptor: (response) => {
+                // Log responses in development
+                if (window.location.hostname === 'localhost') {
+                    console.log('API Response:', response);
+                }
+                return response;
+            }
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                const searchInput = document.querySelector('.filter-container input');
+                if (searchInput) {
+                    searchInput.focus();
+                }
+            }
         });
     };
     </script>
