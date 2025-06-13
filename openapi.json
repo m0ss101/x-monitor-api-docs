@@ -335,50 +335,6 @@
         }
       }
     },
-    "/api/v1/dashboard/workers/{uuid}/status/refresh": {
-      "post": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Refresh Worker Status",
-        "description": "Request worker to refresh its status",
-        "operationId": "refresh_worker_status_api_v1_dashboard_workers__uuid__status_refresh_post",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RefreshWorkerStatusResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/workers/register": {
       "post": {
         "tags": [
@@ -661,15 +617,6 @@
   },
   "components": {
     "schemas": {
-      "ActionStatus": {
-        "type": "string",
-        "enum": [
-          "sent",
-          "skipped"
-        ],
-        "title": "ActionStatus",
-        "description": "Action execution status enumeration"
-      },
       "ApiStatus": {
         "type": "string",
         "enum": [
@@ -785,11 +732,17 @@
             "type": "array",
             "title": "Online Workers",
             "description": "List of online worker UUIDs"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count",
+            "description": "Number of online workers"
           }
         },
         "type": "object",
         "required": [
-          "online_workers"
+          "online_workers",
+          "count"
         ],
         "title": "GetOnlineWorkersResponse",
         "description": "Get online workers response"
@@ -832,13 +785,13 @@
             "title": "Note",
             "description": "Worker note"
           },
-          "status": {
+          "online_status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerStatus"
+                "$ref": "#/components/schemas/OnlineStatus"
               }
             ],
-            "description": "Worker status"
+            "description": "Worker online status"
           },
           "last_heartbeat": {
             "anyOf": [
@@ -872,7 +825,7 @@
           "name",
           "type",
           "registered_at",
-          "status"
+          "online_status"
         ],
         "title": "GetWorkerDetailsResponse",
         "description": "Get worker details response"
@@ -883,6 +836,14 @@
             "type": "string",
             "title": "Worker Uuid",
             "description": "Worker UUID"
+          },
+          "online_status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/OnlineStatus"
+              }
+            ],
+            "description": "Worker online status"
           },
           "last_update": {
             "anyOf": [
@@ -911,7 +872,8 @@
         },
         "type": "object",
         "required": [
-          "worker_uuid"
+          "worker_uuid",
+          "online_status"
         ],
         "title": "GetWorkerHeartbeatResponse",
         "description": "Get worker heartbeat response"
@@ -923,13 +885,13 @@
             "title": "Worker Uuid",
             "description": "Worker UUID"
           },
-          "status": {
+          "report_availability": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ReportStatus"
+                "$ref": "#/components/schemas/ReportAvailability"
               }
             ],
-            "description": "Status report status"
+            "description": "Status report availability"
           },
           "timestamp": {
             "anyOf": [
@@ -983,10 +945,10 @@
         "type": "object",
         "required": [
           "worker_uuid",
-          "status"
+          "report_availability"
         ],
         "title": "GetWorkerStatusReportResponse",
-        "description": "Get worker status report response"
+        "description": "Get worker detailed status report response"
       },
       "GetWorkersResponse": {
         "properties": {
@@ -1028,6 +990,16 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "OnlineStatus": {
+        "type": "string",
+        "enum": [
+          "online",
+          "offline",
+          "unknown"
+        ],
+        "title": "OnlineStatus",
+        "description": "Worker online status enumeration based on heartbeat"
+      },
       "PaginationInfo": {
         "properties": {
           "total": {
@@ -1060,59 +1032,6 @@
         ],
         "title": "PaginationInfo",
         "description": "Pagination metadata"
-      },
-      "RefreshWorkerStatusResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Refresh status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "worker_status": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/WorkerStatus"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "Current worker status"
-          },
-          "request_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Request Id",
-            "description": "Refresh request ID"
-          },
-          "action": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ActionStatus"
-              }
-            ],
-            "description": "Action taken"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "worker_uuid",
-          "action"
-        ],
-        "title": "RefreshWorkerStatusResponse",
-        "description": "Refresh worker status response"
       },
       "RegisterWorkerRequest": {
         "properties": {
@@ -1224,14 +1143,14 @@
         "title": "RemoveWorkerResponse",
         "description": "Remove worker response"
       },
-      "ReportStatus": {
+      "ReportAvailability": {
         "type": "string",
         "enum": [
           "available",
           "no_report"
         ],
-        "title": "ReportStatus",
-        "description": "Status report availability enumeration"
+        "title": "ReportAvailability",
+        "description": "Worker detailed status report availability enumeration"
       },
       "SendHeartbeatRequest": {
         "properties": {
@@ -1600,13 +1519,13 @@
             "title": "Note",
             "description": "Worker note"
           },
-          "status": {
+          "online_status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerStatus"
+                "$ref": "#/components/schemas/OnlineStatus"
               }
             ],
-            "description": "Worker status"
+            "description": "Worker online status"
           }
         },
         "type": "object",
@@ -1615,10 +1534,10 @@
           "name",
           "type",
           "registered_at",
-          "status"
+          "online_status"
         ],
         "title": "WorkerInfo",
-        "description": "Worker information with status"
+        "description": "Worker information with online status"
       },
       "WorkerMetadata": {
         "properties": {
@@ -1720,16 +1639,6 @@
         ],
         "title": "WorkerRuntime",
         "description": "Worker runtime information"
-      },
-      "WorkerStatus": {
-        "type": "string",
-        "enum": [
-          "online",
-          "offline",
-          "unknown"
-        ],
-        "title": "WorkerStatus",
-        "description": "Worker online status enumeration"
       },
       "WorkerType": {
         "type": "string",
