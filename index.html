@@ -53,7 +53,7 @@
             "schema": {
               "anyOf": [
                 {
-                  "$ref": "#/components/schemas/WorkerType"
+                  "$ref": "#/components/schemas/src__api__workers_models__WorkerType"
                 },
                 {
                   "type": "null"
@@ -580,6 +580,59 @@
         }
       }
     },
+    "/api/v1/workers/{uuid}/append_task": {
+      "post": {
+        "tags": [
+          "workers"
+        ],
+        "summary": "Append Worker Task",
+        "description": "Append task to worker",
+        "operationId": "append_worker_task_api_v1_workers__uuid__append_task_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          },
+          {
+            "name": "task",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Task"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppendWorkerTaskResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/workers/{uuid}/status": {
       "post": {
         "tags": [
@@ -733,6 +786,22 @@
         "title": "AllStatusReportsResponse",
         "description": "Response for all status reports endpoint"
       },
+      "AppendWorkerTaskResponse": {
+        "properties": {
+          "work_current_tasks": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Work Current Tasks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "work_current_tasks"
+        ],
+        "title": "AppendWorkerTaskResponse"
+      },
       "BrowserInstanceInfo": {
         "properties": {
           "pid": {
@@ -826,36 +895,39 @@
       },
       "HeartbeatResponse": {
         "properties": {
-          "message": {
+          "status": {
             "type": "string",
-            "title": "Message",
-            "description": "Heartbeat status message"
+            "title": "Status"
           },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "timestamp": {
-            "type": "string",
-            "title": "Timestamp",
-            "description": "Update timestamp"
+          "last_update": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Update"
           },
           "ttl_seconds": {
-            "type": "integer",
-            "title": "Ttl Seconds",
-            "description": "TTL in seconds"
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ttl Seconds"
           }
         },
         "type": "object",
         "required": [
-          "message",
-          "worker_uuid",
-          "timestamp",
-          "ttl_seconds"
+          "status"
         ],
-        "title": "HeartbeatResponse",
-        "description": "Worker heartbeat response"
+        "title": "HeartbeatResponse"
       },
       "HeartbeatStatusResponse": {
         "properties": {
@@ -1262,7 +1334,7 @@
             "title": "Name"
           },
           "worker_type": {
-            "$ref": "#/components/schemas/WorkerType"
+            "$ref": "#/components/schemas/src__models__worker__WorkerType"
           },
           "is_reconnection": {
             "type": "boolean",
@@ -1294,7 +1366,7 @@
           "type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerType"
+                "$ref": "#/components/schemas/WorkerType-Output"
               }
             ],
             "description": "Worker type"
@@ -1374,7 +1446,7 @@
           "type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerType"
+                "$ref": "#/components/schemas/WorkerType-Output"
               }
             ],
             "description": "Worker type"
@@ -1660,14 +1732,13 @@
         "title": "WorkerStatusReportResponse",
         "description": "Worker status report response"
       },
-      "WorkerType": {
+      "WorkerType-Output": {
         "type": "string",
         "enum": [
           "fpb_desktop",
           "notification_mobile"
         ],
-        "title": "WorkerType",
-        "description": "Worker type enumeration"
+        "title": "WorkerType"
       },
       "WorkerUpdate": {
         "properties": {
@@ -1702,7 +1773,7 @@
           "type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/WorkerType"
+                "$ref": "#/components/schemas/WorkerType-Output"
               }
             ],
             "description": "Worker type"
@@ -1762,6 +1833,23 @@
         ],
         "title": "WorkersListResponse",
         "description": "Response for workers list endpoint"
+      },
+      "src__api__workers_models__WorkerType": {
+        "type": "string",
+        "enum": [
+          "fpb_desktop",
+          "notification_mobile"
+        ],
+        "title": "WorkerType"
+      },
+      "src__models__worker__WorkerType": {
+        "type": "string",
+        "enum": [
+          "fpb_desktop",
+          "notification_mobile"
+        ],
+        "title": "WorkerType",
+        "description": "Worker type enumeration"
       }
     }
   }
