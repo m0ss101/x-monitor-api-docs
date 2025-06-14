@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-14 17:54:37 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-14 18:27:07 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -905,6 +905,50 @@
         }
       }
     },
+    "/api/v1/dashboard/proxy/{uuid}/detect": {
+      "post": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Detect Proxy By Uuid",
+        "description": "Detect proxy location by UUID and update database",
+        "operationId": "detect_proxy_by_uuid_api_v1_dashboard_proxy__uuid__detect_post",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectProxyByUuidResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/workers/register": {
       "post": {
         "tags": [
@@ -1441,6 +1485,58 @@
         ],
         "title": "DeleteProxyResponse",
         "description": "Delete proxy response"
+      },
+      "DetectProxyByUuidResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Detection status message"
+          },
+          "proxy_uuid": {
+            "type": "string",
+            "title": "Proxy Uuid",
+            "description": "Proxy UUID"
+          },
+          "country_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Country Code",
+            "description": "Detected country code"
+          },
+          "timezone": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Timezone",
+            "description": "Detected timezone"
+          },
+          "last_checked_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Last Checked At",
+            "description": "Last check timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "proxy_uuid",
+          "last_checked_at"
+        ],
+        "title": "DetectProxyByUuidResponse",
+        "description": "Detect proxy by UUID response"
       },
       "DetectProxyRequest": {
         "properties": {
