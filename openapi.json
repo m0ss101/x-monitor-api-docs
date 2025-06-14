@@ -269,28 +269,6 @@
         }
       }
     },
-    "/api/v1/dashboard/workers/online": {
-      "get": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Get Online Workers",
-        "description": "Get list of online workers",
-        "operationId": "get_online_workers_api_v1_dashboard_workers_online_get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetOnlineWorkersResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/dashboard/workers/{uuid}/report": {
       "get": {
         "tags": [
@@ -728,24 +706,6 @@
         ],
         "title": "BrowserInstanceInfo",
         "description": "Browser instance runtime information"
-      },
-      "GetOnlineWorkersResponse": {
-        "properties": {
-          "online_workers": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Online Workers",
-            "description": "List of online worker UUIDs"
-          }
-        },
-        "type": "object",
-        "required": [
-          "online_workers"
-        ],
-        "title": "GetOnlineWorkersResponse",
-        "description": "Get online workers response"
       },
       "GetWorkerDetailsResponse": {
         "properties": {
