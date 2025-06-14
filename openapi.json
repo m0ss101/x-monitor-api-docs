@@ -408,46 +408,6 @@
             }
           }
         }
-      },
-      "post": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Create Proxy",
-        "description": "Create a new proxy (for importing proxies)",
-        "operationId": "create_proxy_api_v1_dashboard_proxy_post",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateProxyRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreateProxyResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/api/v1/dashboard/proxy/{uuid}": {
@@ -477,58 +437,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetProxyDetailsResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Update Proxy Location",
-        "description": "Update proxy location information",
-        "operationId": "update_proxy_location_api_v1_dashboard_proxy__uuid__patch",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateProxyLocationRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UpdateProxyLocationResponse"
                 }
               }
             }
@@ -588,14 +496,14 @@
         }
       }
     },
-    "/api/v1/dashboard/proxy/{uuid}/note": {
+    "/api/v1/dashboard/proxy/{uuid}/update": {
       "patch": {
         "tags": [
           "dashboard"
         ],
-        "summary": "Update Proxy Note",
-        "description": "Update proxy note",
-        "operationId": "update_proxy_note_api_v1_dashboard_proxy__uuid__note_patch",
+        "summary": "Update Proxy",
+        "description": "Update proxy information - can update any combination of fields",
+        "operationId": "update_proxy_api_v1_dashboard_proxy__uuid__update_patch",
         "parameters": [
           {
             "name": "uuid",
@@ -613,7 +521,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateProxyNoteRequest"
+                "$ref": "#/components/schemas/UpdateProxyRequest"
               }
             }
           }
@@ -624,7 +532,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateProxyNoteResponse"
+                  "$ref": "#/components/schemas/UpdateProxyResponse"
                 }
               }
             }
@@ -642,19 +550,19 @@
         }
       }
     },
-    "/api/v1/dashboard/proxy/batch/delete": {
+    "/api/v1/dashboard/proxy/insert": {
       "post": {
         "tags": [
           "dashboard"
         ],
-        "summary": "Delete Proxies Batch",
-        "description": "Delete multiple proxies",
-        "operationId": "delete_proxies_batch_api_v1_dashboard_proxy_batch_delete_post",
+        "summary": "Insert Proxy",
+        "description": "Create a new proxy (for importing proxies)",
+        "operationId": "insert_proxy_api_v1_dashboard_proxy_insert_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DeleteProxiesRequest"
+                "$ref": "#/components/schemas/CreateProxyRequest"
               }
             }
           },
@@ -666,49 +574,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteProxyResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/dashboard/proxy/detect": {
-      "post": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Detect Proxy Location",
-        "description": "Detect proxy location by making a request through the proxy",
-        "operationId": "detect_proxy_location_api_v1_dashboard_proxy_detect_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DetectProxyRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DetectProxyResponse"
+                  "$ref": "#/components/schemas/CreateProxyResponse"
                 }
               }
             }
@@ -1274,24 +1140,6 @@
         "title": "CreateProxyResponse",
         "description": "Create proxy response"
       },
-      "DeleteProxiesRequest": {
-        "properties": {
-          "proxy_uuids": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Proxy Uuids",
-            "description": "List of proxy UUIDs to delete"
-          }
-        },
-        "type": "object",
-        "required": [
-          "proxy_uuids"
-        ],
-        "title": "DeleteProxiesRequest",
-        "description": "Delete proxies batch request"
-      },
       "DeleteProxyResponse": {
         "properties": {
           "message": {
@@ -1358,72 +1206,6 @@
         ],
         "title": "DetectProxyByUuidResponse",
         "description": "Detect proxy by UUID response"
-      },
-      "DetectProxyRequest": {
-        "properties": {
-          "host": {
-            "type": "string",
-            "title": "Host",
-            "description": "Proxy host"
-          },
-          "port": {
-            "type": "integer",
-            "maximum": 65535.0,
-            "minimum": 1.0,
-            "title": "Port",
-            "description": "Proxy port"
-          },
-          "username": {
-            "type": "string",
-            "title": "Username",
-            "description": "Proxy username"
-          },
-          "password": {
-            "type": "string",
-            "title": "Password",
-            "description": "Proxy password"
-          }
-        },
-        "type": "object",
-        "required": [
-          "host",
-          "port",
-          "username",
-          "password"
-        ],
-        "title": "DetectProxyRequest",
-        "description": "Detect proxy location request"
-      },
-      "DetectProxyResponse": {
-        "properties": {
-          "country_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country Code",
-            "description": "Detected country code"
-          },
-          "timezone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timezone",
-            "description": "Detected timezone"
-          }
-        },
-        "type": "object",
-        "title": "DetectProxyResponse",
-        "description": "Detect proxy location response"
       },
       "GetProxiesResponse": {
         "properties": {
@@ -2470,8 +2252,20 @@
         "title": "TerminateBrowserResponse",
         "description": "Response model for terminate browser command"
       },
-      "UpdateProxyLocationRequest": {
+      "UpdateProxyRequest": {
         "properties": {
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note",
+            "description": "Proxy note"
+          },
           "country_code": {
             "anyOf": [
               {
@@ -2498,10 +2292,10 @@
           }
         },
         "type": "object",
-        "title": "UpdateProxyLocationRequest",
-        "description": "Update proxy location request"
+        "title": "UpdateProxyRequest",
+        "description": "Update proxy request - can update any combination of fields"
       },
-      "UpdateProxyLocationResponse": {
+      "UpdateProxyResponse": {
         "properties": {
           "message": {
             "type": "string",
@@ -2512,6 +2306,18 @@
             "type": "string",
             "title": "Proxy Uuid",
             "description": "Proxy UUID"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note",
+            "description": "Updated note"
           },
           "country_code": {
             "anyOf": [
@@ -2543,50 +2349,8 @@
           "message",
           "proxy_uuid"
         ],
-        "title": "UpdateProxyLocationResponse",
-        "description": "Update proxy location response"
-      },
-      "UpdateProxyNoteRequest": {
-        "properties": {
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "New note for the proxy"
-          }
-        },
-        "type": "object",
-        "required": [
-          "note"
-        ],
-        "title": "UpdateProxyNoteRequest",
-        "description": "Update proxy note request"
-      },
-      "UpdateProxyNoteResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Update status message"
-          },
-          "proxy_uuid": {
-            "type": "string",
-            "title": "Proxy Uuid",
-            "description": "Proxy UUID"
-          },
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "Updated note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "proxy_uuid",
-          "note"
-        ],
-        "title": "UpdateProxyNoteResponse",
-        "description": "Update proxy note response"
+        "title": "UpdateProxyResponse",
+        "description": "Update proxy response"
       },
       "UpdateWorkerNoteRequest": {
         "properties": {
