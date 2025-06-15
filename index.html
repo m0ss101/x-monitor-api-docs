@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-15 21:00:31 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-15 21:12:26 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1032,6 +1032,52 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TerminateBrowserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crawler/resource/{resource_uuid}": {
+      "get": {
+        "tags": [
+          "crawler"
+        ],
+        "summary": "Get Resource Status",
+        "description": "Get resource status and information",
+        "operationId": "get_resource_status_api_v1_crawler_resource__resource_uuid__get",
+        "parameters": [
+          {
+            "name": "resource_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Resource UUID",
+              "title": "Resource Uuid"
+            },
+            "description": "Resource UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourceStatusResponse"
                 }
               }
             }
@@ -2070,6 +2116,54 @@
         ],
         "title": "ReportAvailability",
         "description": "Worker detailed status report availability enumeration"
+      },
+      "ResourceStatusResponse": {
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ApiStatus"
+              }
+            ],
+            "description": "Query status"
+          },
+          "resource_uuid": {
+            "type": "string",
+            "title": "Resource Uuid",
+            "description": "Resource UUID"
+          },
+          "resource_data": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resource Data",
+            "description": "Resource data"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "resource_uuid"
+        ],
+        "title": "ResourceStatusResponse",
+        "description": "Response model for resource status query"
       },
       "SendHeartbeatRequest": {
         "properties": {
