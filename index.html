@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-15 09:43:58 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-15 20:48:29 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1021,14 +1021,14 @@
         }
       }
     },
-    "/api/v1/crawler/terminate-browser": {
+    "/api/v1/crawler/browser/terminate": {
       "post": {
         "tags": [
           "crawler"
         ],
         "summary": "Terminate Browser",
         "description": "Terminate browser",
-        "operationId": "terminate_browser_api_v1_crawler_terminate_browser_post",
+        "operationId": "terminate_browser_api_v1_crawler_browser_terminate_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1063,13 +1063,13 @@
         }
       }
     },
-    "/api/v1/crawler/start-browser": {
+    "/api/v1/crawler/browser/start": {
       "post": {
         "tags": [
           "crawler"
         ],
         "summary": "Start Browser For Country",
-        "operationId": "start_browser_for_country_api_v1_crawler_start_browser_post",
+        "operationId": "start_browser_for_country_api_v1_crawler_browser_start_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1818,6 +1818,45 @@
         ],
         "title": "PaginationInfo",
         "description": "Pagination metadata"
+      },
+      "ProxyForwarderInfo": {
+        "properties": {
+          "pid": {
+            "type": "integer",
+            "title": "Pid"
+          },
+          "local_port": {
+            "type": "integer",
+            "title": "Local Port"
+          },
+          "remote_host": {
+            "type": "string",
+            "title": "Remote Host"
+          },
+          "remote_port": {
+            "type": "integer",
+            "title": "Remote Port"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "is_alive": {
+            "type": "boolean",
+            "title": "Is Alive"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pid",
+          "local_port",
+          "remote_host",
+          "remote_port",
+          "username",
+          "is_alive"
+        ],
+        "title": "ProxyForwarderInfo",
+        "description": "Proxy forwarder instance runtime information"
       },
       "ProxyInfo": {
         "properties": {
@@ -2736,6 +2775,23 @@
           "active_browsers": {
             "type": "integer",
             "title": "Active Browsers"
+          },
+          "proxy_forwarders": {
+            "items": {
+              "$ref": "#/components/schemas/ProxyForwarderInfo"
+            },
+            "type": "array",
+            "title": "Proxy Forwarders"
+          },
+          "total_proxy_forwarders": {
+            "type": "integer",
+            "title": "Total Proxy Forwarders",
+            "default": 0
+          },
+          "active_proxy_forwarders": {
+            "type": "integer",
+            "title": "Active Proxy Forwarders",
+            "default": 0
           },
           "load_average": {
             "anyOf": [
