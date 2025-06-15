@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-15 20:48:29 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-15 21:00:31 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -965,37 +965,23 @@
         }
       }
     },
-    "/api/v1/crawler/{uuid}/task": {
+    "/api/v1/crawler/task/create": {
       "post": {
         "tags": [
           "crawler"
         ],
         "summary": "Submit Task",
         "description": "Submit task to worker",
-        "operationId": "submit_task_api_v1_crawler__uuid__task_post",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "Worker UUID",
-              "title": "Uuid"
-            },
-            "description": "Worker UUID"
-          }
-        ],
+        "operationId": "submit_task_api_v1_crawler_task_create_post",
         "requestBody": {
-          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/SubmitTaskRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -2356,6 +2342,12 @@
       },
       "SubmitTaskRequest": {
         "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid",
+            "description": "Submit to worker UUID"
+          },
           "task": {
             "type": "string",
             "title": "Task",
@@ -2364,6 +2356,7 @@
         },
         "type": "object",
         "required": [
+          "worker_uuid",
           "task"
         ],
         "title": "SubmitTaskRequest",
