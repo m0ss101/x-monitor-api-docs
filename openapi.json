@@ -737,9 +737,9 @@
         "tags": [
           "workers"
         ],
-        "summary": "Worker Status Report",
+        "summary": "Worker Report",
         "description": "Worker status report submission",
-        "operationId": "worker_status_report_api_v1_workers__uuid__report_post",
+        "operationId": "worker_report_api_v1_workers__uuid__report_post",
         "parameters": [
           {
             "name": "uuid",
@@ -2531,7 +2531,7 @@
           "startup_time"
         ],
         "title": "WorkerMetadata",
-        "description": "Worker metadata"
+        "description": "Worker metadata - Static information"
       },
       "WorkerRuntime": {
         "properties": {
@@ -2584,7 +2584,7 @@
           "uptime_seconds"
         ],
         "title": "WorkerRuntime",
-        "description": "Worker runtime information"
+        "description": "Worker runtime information - Dynamic information"
       },
       "WorkerType": {
         "type": "string",
