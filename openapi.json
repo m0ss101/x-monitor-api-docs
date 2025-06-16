@@ -453,57 +453,13 @@
           }
         }
       },
-      "delete": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Delete Proxy",
-        "description": "Delete a single proxy",
-        "operationId": "delete_proxy_api_v1_dashboard_proxy__uuid__delete",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/DeleteProxyResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/dashboard/proxy/{uuid}/update": {
       "patch": {
         "tags": [
           "dashboard"
         ],
         "summary": "Update Proxy",
         "description": "Update proxy information - can update any combination of fields",
-        "operationId": "update_proxy_api_v1_dashboard_proxy__uuid__update_patch",
+        "operationId": "update_proxy_api_v1_dashboard_proxy__uuid__patch",
         "parameters": [
           {
             "name": "uuid",
@@ -548,6 +504,48 @@
             }
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Delete Proxy",
+        "description": "Delete a single proxy",
+        "operationId": "delete_proxy_api_v1_dashboard_proxy__uuid__delete",
+        "parameters": [
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProxyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/v1/dashboard/proxy/insert": {
@@ -575,6 +573,90 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CreateProxyResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/proxy/batch": {
+      "delete": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Delete Proxies Batch",
+        "description": "Delete multiple proxies in batch",
+        "operationId": "delete_proxies_batch_api_v1_dashboard_proxy_batch_delete",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteProxiesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteProxiesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/proxy/batch/detect": {
+      "post": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Detect Proxies Batch",
+        "description": "Detect location for multiple proxies in batch",
+        "operationId": "detect_proxies_batch_api_v1_dashboard_proxy_batch_detect_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DetectProxiesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectProxiesResponse"
                 }
               }
             }
@@ -1172,6 +1254,54 @@
         "title": "CreateProxyResponse",
         "description": "Create proxy response"
       },
+      "DeleteProxiesRequest": {
+        "properties": {
+          "proxy_uuids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Proxy Uuids",
+            "description": "List of proxy UUIDs to delete"
+          }
+        },
+        "type": "object",
+        "required": [
+          "proxy_uuids"
+        ],
+        "title": "DeleteProxiesRequest",
+        "description": "Delete proxies batch request"
+      },
+      "DeleteProxiesResponse": {
+        "properties": {
+          "successful": {
+            "type": "integer",
+            "title": "Successful",
+            "description": "Number of successfully deleted proxies"
+          },
+          "failed": {
+            "type": "integer",
+            "title": "Failed",
+            "description": "Number of failed deletions"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors",
+            "description": "List of error messages",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "successful",
+          "failed"
+        ],
+        "title": "DeleteProxiesResponse",
+        "description": "Delete proxies batch response"
+      },
       "DeleteProxyResponse": {
         "properties": {
           "message": {
@@ -1186,6 +1316,54 @@
         ],
         "title": "DeleteProxyResponse",
         "description": "Delete proxy response"
+      },
+      "DetectProxiesRequest": {
+        "properties": {
+          "proxy_uuids": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Proxy Uuids",
+            "description": "List of proxy UUIDs to detect"
+          }
+        },
+        "type": "object",
+        "required": [
+          "proxy_uuids"
+        ],
+        "title": "DetectProxiesRequest",
+        "description": "Detect proxies batch request"
+      },
+      "DetectProxiesResponse": {
+        "properties": {
+          "successful": {
+            "type": "integer",
+            "title": "Successful",
+            "description": "Number of successfully detected proxies"
+          },
+          "failed": {
+            "type": "integer",
+            "title": "Failed",
+            "description": "Number of failed detections"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors",
+            "description": "List of error messages",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "successful",
+          "failed"
+        ],
+        "title": "DetectProxiesResponse",
+        "description": "Detect proxies batch response"
       },
       "DetectProxyByUuidResponse": {
         "properties": {
