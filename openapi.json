@@ -1083,7 +1083,8 @@
           "failed",
           "error",
           "sent",
-          "no_worker"
+          "no_worker",
+          "no_proxy"
         ],
         "title": "ApiStatus",
         "description": "API response status enumeration"
