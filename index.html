@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-18 10:53:32 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-18 17:08:08 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -387,50 +387,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/UpdateWorkerNoteResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/dashboard/workers/{uuid}/heartbeat": {
-      "get": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Get Worker Heartbeat",
-        "description": "Get worker heartbeat status",
-        "operationId": "get_worker_heartbeat_api_v1_dashboard_workers__uuid__heartbeat_get",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetWorkerHeartbeatResponse"
                 }
               }
             }
@@ -897,110 +853,14 @@
         }
       }
     },
-    "/api/v1/workers/register": {
+    "/api/v1/worker/{uuid}/report": {
       "post": {
         "tags": [
-          "workers"
-        ],
-        "summary": "Register Worker",
-        "description": "Worker self-registration",
-        "operationId": "register_worker_api_v1_workers_register_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RegisterWorkerRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RegisterWorkerResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/workers/{uuid}/heartbeat": {
-      "post": {
-        "tags": [
-          "workers"
-        ],
-        "summary": "Worker Heartbeat",
-        "description": "Worker heartbeat update with Redis TTL\n\nWorker sends heartbeat_interval in JSON body, Redis auto-sets 3x interval TTL",
-        "operationId": "worker_heartbeat_api_v1_workers__uuid__heartbeat_post",
-        "parameters": [
-          {
-            "name": "uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendHeartbeatRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SendHeartbeatResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/workers/{uuid}/report": {
-      "post": {
-        "tags": [
-          "workers"
+          "worker"
         ],
         "summary": "Worker Report",
         "description": "Worker status report submission",
-        "operationId": "worker_report_api_v1_workers__uuid__report_post",
+        "operationId": "worker_report_api_v1_worker__uuid__report_post",
         "parameters": [
           {
             "name": "uuid",
@@ -1182,7 +1042,7 @@
         "tags": [
           "resource"
         ],
-        "summary": "Start Browser For Country",
+        "summary": "Create browser instance by country code",
         "operationId": "start_browser_for_country_api_v1_resource_browser_create_post",
         "requestBody": {
           "content": {
@@ -1255,19 +1115,6 @@
   },
   "components": {
     "schemas": {
-      "ApiStatus": {
-        "type": "string",
-        "enum": [
-          "ok",
-          "failed",
-          "error",
-          "sent",
-          "no_worker",
-          "no_proxy"
-        ],
-        "title": "ApiStatus",
-        "description": "API response status enumeration"
-      },
       "BrowserInstanceInfo": {
         "properties": {
           "pid": {
@@ -1277,10 +1124,6 @@
           "port": {
             "type": "integer",
             "title": "Port"
-          },
-          "is_alive": {
-            "type": "boolean",
-            "title": "Is Alive"
           },
           "executable_path": {
             "type": "string",
@@ -1299,24 +1142,12 @@
             },
             "type": "array",
             "title": "Envs"
-          },
-          "user_data_dir": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "User Data Dir"
           }
         },
         "type": "object",
         "required": [
           "pid",
           "port",
-          "is_alive",
           "executable_path",
           "args",
           "envs"
@@ -1782,38 +1613,11 @@
             "title": "Note",
             "description": "Worker note"
           },
-          "online_status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/OnlineStatus"
-              }
-            ],
-            "description": "Worker online status"
-          },
-          "last_heartbeat": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "date-time"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Heartbeat",
-            "description": "Last heartbeat timestamp"
-          },
-          "ttl_seconds": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Ttl Seconds",
-            "description": "TTL in seconds"
+          "is_online": {
+            "type": "boolean",
+            "title": "Is Online",
+            "description": "Worker online status",
+            "default": false
           }
         },
         "type": "object",
@@ -1821,59 +1625,10 @@
           "uuid",
           "name",
           "type",
-          "registered_at",
-          "online_status"
+          "registered_at"
         ],
         "title": "GetWorkerDetailsResponse",
         "description": "Get worker details response"
-      },
-      "GetWorkerHeartbeatResponse": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "online_status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/OnlineStatus"
-              }
-            ],
-            "description": "Worker online status"
-          },
-          "last_update": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Last Update",
-            "description": "Last update timestamp"
-          },
-          "ttl_seconds": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Ttl Seconds",
-            "description": "TTL in seconds"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "online_status"
-        ],
-        "title": "GetWorkerHeartbeatResponse",
-        "description": "Get worker heartbeat response"
       },
       "GetWorkerStatusReportResponse": {
         "properties": {
@@ -1987,16 +1742,6 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
-      "OnlineStatus": {
-        "type": "string",
-        "enum": [
-          "online",
-          "offline",
-          "unknown"
-        ],
-        "title": "OnlineStatus",
-        "description": "Worker online status enumeration based on heartbeat"
-      },
       "PaginationInfo": {
         "properties": {
           "total": {
@@ -2029,45 +1774,6 @@
         ],
         "title": "PaginationInfo",
         "description": "Pagination metadata"
-      },
-      "ProxyForwarderInfo": {
-        "properties": {
-          "pid": {
-            "type": "integer",
-            "title": "Pid"
-          },
-          "local_port": {
-            "type": "integer",
-            "title": "Local Port"
-          },
-          "remote_host": {
-            "type": "string",
-            "title": "Remote Host"
-          },
-          "remote_port": {
-            "type": "integer",
-            "title": "Remote Port"
-          },
-          "username": {
-            "type": "string",
-            "title": "Username"
-          },
-          "is_alive": {
-            "type": "boolean",
-            "title": "Is Alive"
-          }
-        },
-        "type": "object",
-        "required": [
-          "pid",
-          "local_port",
-          "remote_host",
-          "remote_port",
-          "username",
-          "is_alive"
-        ],
-        "title": "ProxyForwarderInfo",
-        "description": "Proxy forwarder instance runtime information"
       },
       "ProxyInfo": {
         "properties": {
@@ -2177,101 +1883,6 @@
         "title": "ProxyInfo",
         "description": "Proxy information"
       },
-      "RegisterWorkerRequest": {
-        "properties": {
-          "worker_uuid": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Worker Uuid"
-          },
-          "name": {
-            "type": "string",
-            "maxLength": 255,
-            "minLength": 1,
-            "title": "Name"
-          },
-          "worker_type": {
-            "$ref": "#/components/schemas/WorkerType"
-          },
-          "is_reconnection": {
-            "type": "boolean",
-            "title": "Is Reconnection",
-            "description": "Whether this is a reconnection",
-            "default": false
-          }
-        },
-        "type": "object",
-        "required": [
-          "name",
-          "worker_type"
-        ],
-        "title": "RegisterWorkerRequest",
-        "description": "Worker registration request"
-      },
-      "RegisterWorkerResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Registration status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "registered_at": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Registered At",
-            "description": "Registration timestamp"
-          },
-          "reconnection": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reconnection",
-            "description": "Whether this was a reconnection"
-          },
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note",
-            "description": "Additional notes"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "worker_uuid"
-        ],
-        "title": "RegisterWorkerResponse",
-        "description": "Worker registration response"
-      },
       "RemoveWorkerResponse": {
         "properties": {
           "message": {
@@ -2301,7 +1912,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ApiStatus"
+                "$ref": "#/components/schemas/Status"
               }
             ],
             "description": "Query status"
@@ -2344,61 +1955,6 @@
         "title": "ResourceStatusResponse",
         "description": "Response model for resource status query"
       },
-      "SendHeartbeatRequest": {
-        "properties": {
-          "heartbeat_interval": {
-            "anyOf": [
-              {
-                "type": "integer",
-                "maximum": 300.0,
-                "minimum": 10.0
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Heartbeat Interval",
-            "description": "Heartbeat interval in seconds",
-            "default": 60
-          }
-        },
-        "type": "object",
-        "title": "SendHeartbeatRequest",
-        "description": "Worker heartbeat request"
-      },
-      "SendHeartbeatResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Heartbeat status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "timestamp": {
-            "type": "string",
-            "title": "Timestamp",
-            "description": "Update timestamp"
-          },
-          "ttl_seconds": {
-            "type": "integer",
-            "title": "Ttl Seconds",
-            "description": "TTL in seconds"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "worker_uuid",
-          "timestamp",
-          "ttl_seconds"
-        ],
-        "title": "SendHeartbeatResponse",
-        "description": "Worker heartbeat response"
-      },
       "SendStatusReportRequest": {
         "properties": {
           "worker_uuid": {
@@ -2415,6 +1971,10 @@
             "format": "date-time",
             "title": "Timestamp"
           },
+          "interval": {
+            "type": "integer",
+            "title": "Interval"
+          },
           "metadata": {
             "$ref": "#/components/schemas/WorkerMetadata"
           },
@@ -2427,6 +1987,7 @@
           "worker_uuid",
           "worker_type",
           "timestamp",
+          "interval",
           "metadata",
           "runtime"
         ],
@@ -2435,30 +1996,13 @@
       },
       "SendStatusReportResponse": {
         "properties": {
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
           "message": {
             "type": "string",
             "title": "Message",
             "description": "Status update message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "timestamp": {
-            "type": "string",
-            "title": "Timestamp",
-            "description": "Report timestamp"
-          },
-          "metadata_updated": {
-            "type": "boolean",
-            "title": "Metadata Updated",
-            "description": "Whether metadata was updated"
-          },
-          "runtime_updated": {
-            "type": "boolean",
-            "title": "Runtime Updated",
-            "description": "Whether runtime info was updated"
           },
           "tasks": {
             "anyOf": [
@@ -2478,11 +2022,8 @@
         },
         "type": "object",
         "required": [
-          "message",
-          "worker_uuid",
-          "timestamp",
-          "metadata_updated",
-          "runtime_updated"
+          "status",
+          "message"
         ],
         "title": "SendStatusReportResponse",
         "description": "Worker status report response"
@@ -2522,7 +2063,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ApiStatus"
+                "$ref": "#/components/schemas/Status"
               }
             ],
             "description": "Command status"
@@ -2613,6 +2154,19 @@
         "title": "StartBrowserResponse",
         "description": "Response model for start browser command"
       },
+      "Status": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "failed",
+          "error",
+          "sent",
+          "no_worker",
+          "no_proxy"
+        ],
+        "title": "Status",
+        "description": "API response status enumeration"
+      },
       "SubmitTaskRequest": {
         "properties": {
           "worker_uuid": {
@@ -2622,8 +2176,11 @@
             "description": "Submit to worker UUID"
           },
           "task": {
-            "type": "string",
-            "title": "Task",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TaskInfo"
+              }
+            ],
             "description": "Task to submit"
           }
         },
@@ -2640,25 +2197,10 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ApiStatus"
+                "$ref": "#/components/schemas/Status"
               }
             ],
             "description": "Command status"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Target worker UUID"
-          },
-          "task_id": {
-            "type": "string",
-            "title": "Task Id",
-            "description": "Task ID"
-          },
-          "task_name": {
-            "type": "string",
-            "title": "Task Name",
-            "description": "Task name"
           },
           "message": {
             "anyOf": [
@@ -2675,13 +2217,53 @@
         },
         "type": "object",
         "required": [
-          "status",
-          "worker_uuid",
-          "task_id",
-          "task_name"
+          "status"
         ],
         "title": "SubmitTaskResponse",
         "description": "Response model for submit task command"
+      },
+      "TaskInfo": {
+        "properties": {
+          "task_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Uuid"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "from_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "From Worker Uuid"
+          },
+          "to_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "To Worker Uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_uuid",
+          "task_name",
+          "from_worker_uuid",
+          "to_worker_uuid",
+          "created_at",
+          "status"
+        ],
+        "title": "TaskInfo",
+        "description": "Task information"
       },
       "TerminateBrowserRequest": {
         "properties": {
@@ -2704,7 +2286,7 @@
           "status": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ApiStatus"
+                "$ref": "#/components/schemas/Status"
               }
             ],
             "description": "Command status"
@@ -2949,12 +2531,9 @@
             "title": "Note",
             "description": "Worker note"
           },
-          "online_status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/OnlineStatus"
-              }
-            ],
+          "is_online": {
+            "type": "boolean",
+            "title": "Is Online",
             "description": "Worker online status"
           }
         },
@@ -2964,7 +2543,7 @@
           "name",
           "type",
           "registered_at",
-          "online_status"
+          "is_online"
         ],
         "title": "WorkerInfo",
         "description": "Worker information with online status"
@@ -3041,23 +2620,6 @@
           "active_browsers": {
             "type": "integer",
             "title": "Active Browsers"
-          },
-          "proxy_forwarders": {
-            "items": {
-              "$ref": "#/components/schemas/ProxyForwarderInfo"
-            },
-            "type": "array",
-            "title": "Proxy Forwarders"
-          },
-          "total_proxy_forwarders": {
-            "type": "integer",
-            "title": "Total Proxy Forwarders",
-            "default": 0
-          },
-          "active_proxy_forwarders": {
-            "type": "integer",
-            "title": "Active Proxy Forwarders",
-            "default": 0
           },
           "load_average": {
             "anyOf": [
