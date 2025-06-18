@@ -16,8 +16,8 @@ The API provides middleware services for the Fingerprint Browser Automation Syst
 - Worker registry and management
 - Message routing and queuing
 - Dashboard and monitoring capabilities
-- Crawler coordination
+- Resource management
 
 ## Last Updated
 
-Generated on: 2025-06-17 14:49:17 CST
+Generated on: 2025-06-18 10:53:34 CST

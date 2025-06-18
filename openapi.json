@@ -868,14 +868,14 @@
         }
       }
     },
-    "/api/v1/crawler/task/create": {
+    "/api/v1/resource/task/create": {
       "post": {
         "tags": [
-          "crawler"
+          "resource"
         ],
         "summary": "Submit Task",
         "description": "Submit task to worker",
-        "operationId": "submit_task_api_v1_crawler_task_create_post",
+        "operationId": "submit_task_api_v1_resource_task_create_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -910,14 +910,14 @@
         }
       }
     },
-    "/api/v1/crawler/browser/terminate": {
+    "/api/v1/resource/browser/terminate": {
       "post": {
         "tags": [
-          "crawler"
+          "resource"
         ],
         "summary": "Terminate Browser",
         "description": "Terminate browser",
-        "operationId": "terminate_browser_api_v1_crawler_browser_terminate_post",
+        "operationId": "terminate_browser_api_v1_resource_browser_terminate_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -952,14 +952,14 @@
         }
       }
     },
-    "/api/v1/crawler/resource/{resource_uuid}": {
+    "/api/v1/resource/resource/{resource_uuid}": {
       "get": {
         "tags": [
-          "crawler"
+          "resource"
         ],
         "summary": "Get Resource Status",
         "description": "Get resource status and information",
-        "operationId": "get_resource_status_api_v1_crawler_resource__resource_uuid__get",
+        "operationId": "get_resource_status_api_v1_resource_resource__resource_uuid__get",
         "parameters": [
           {
             "name": "resource_uuid",
@@ -998,13 +998,13 @@
         }
       }
     },
-    "/api/v1/crawler/browser/start": {
+    "/api/v1/resource/browser/create": {
       "post": {
         "tags": [
-          "crawler"
+          "resource"
         ],
         "summary": "Start Browser For Country",
-        "operationId": "start_browser_for_country_api_v1_crawler_browser_start_post",
+        "operationId": "start_browser_for_country_api_v1_resource_browser_create_post",
         "requestBody": {
           "content": {
             "application/json": {
