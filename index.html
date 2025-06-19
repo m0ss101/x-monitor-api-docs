@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-19 13:18:11 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-19 16:04:12 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1118,40 +1118,68 @@
       "BrowserInstanceInfo": {
         "properties": {
           "pid": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Pid"
           },
           "port": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Port"
           },
           "executable_path": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Executable Path"
           },
           "args": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Args"
           },
           "envs": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Envs"
           }
         },
         "type": "object",
-        "required": [
-          "pid",
-          "port",
-          "executable_path",
-          "args",
-          "envs"
-        ],
         "title": "BrowserInstanceInfo",
         "description": "Browser instance runtime information"
       },
@@ -2515,19 +2543,10 @@
             "type": "string",
             "title": "Client Ip"
           },
-          "mac_address": {
+          "startup_time": {
             "type": "string",
-            "title": "Mac Address"
-          },
-          "config": {
-            "type": "object",
-            "title": "Config",
-            "description": "Startup configuration"
-          },
-          "system_info": {
-            "type": "object",
-            "title": "System Info",
-            "description": "Basic system information"
+            "format": "date-time",
+            "title": "Startup Time"
           },
           "worker_version": {
             "anyOf": [
@@ -2540,18 +2559,43 @@
             ],
             "title": "Worker Version"
           },
-          "startup_time": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Startup Time"
+          "mac_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mac Address"
+          },
+          "config": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Config"
+          },
+          "system_info": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "System Info"
           }
         },
         "type": "object",
         "required": [
           "client_ip",
-          "mac_address",
-          "config",
-          "system_info",
           "startup_time"
         ],
         "title": "WorkerMetadata",
@@ -2559,28 +2603,47 @@
       },
       "WorkerRuntime": {
         "properties": {
+          "processed_count": {
+            "type": "integer",
+            "title": "Processed Count",
+            "description": "Number of processed tasks",
+            "default": 0
+          },
+          "uptime_seconds": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Uptime Seconds",
+            "description": "Worker uptime in seconds"
+          },
           "cpu_percent": {
-            "type": "number",
-            "title": "Cpu Percent"
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpu Percent",
+            "description": "CPU usage percentage"
           },
           "memory_usage": {
-            "type": "object",
-            "title": "Memory Usage"
-          },
-          "browser_instances": {
-            "items": {
-              "$ref": "#/components/schemas/BrowserInstanceInfo"
-            },
-            "type": "array",
-            "title": "Browser Instances"
-          },
-          "total_browsers": {
-            "type": "integer",
-            "title": "Total Browsers"
-          },
-          "active_browsers": {
-            "type": "integer",
-            "title": "Active Browsers"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Memory Usage",
+            "description": "Memory usage info"
           },
           "load_average": {
             "anyOf": [
@@ -2591,22 +2654,52 @@
                 "type": "null"
               }
             ],
-            "title": "Load Average"
+            "title": "Load Average",
+            "description": "System load average"
           },
-          "uptime_seconds": {
-            "type": "integer",
-            "title": "Uptime Seconds"
+          "browser_instances": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BrowserInstanceInfo"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Browser Instances",
+            "description": "Active browser instances"
+          },
+          "total_browsers": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Total Browsers",
+            "description": "Total number of browsers",
+            "default": 0
+          },
+          "active_browsers": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Active Browsers",
+            "description": "Number of active browsers",
+            "default": 0
           }
         },
         "type": "object",
-        "required": [
-          "cpu_percent",
-          "memory_usage",
-          "browser_instances",
-          "total_browsers",
-          "active_browsers",
-          "uptime_seconds"
-        ],
         "title": "WorkerRuntime",
         "description": "Worker runtime information - Dynamic information"
       },
