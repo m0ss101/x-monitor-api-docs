@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-19 12:50:58 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-19 13:18:11 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -878,7 +878,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SendStatusReportRequest"
+                "$ref": "#/components/schemas/WorkerStatusReport"
               }
             }
           }
@@ -1955,45 +1955,6 @@
         "title": "ResourceStatusResponse",
         "description": "Response model for resource status query"
       },
-      "SendStatusReportRequest": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Worker Uuid"
-          },
-          "worker_type": {
-            "type": "string",
-            "title": "Worker Type"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Timestamp"
-          },
-          "interval": {
-            "type": "integer",
-            "title": "Interval"
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/WorkerMetadata"
-          },
-          "runtime": {
-            "$ref": "#/components/schemas/WorkerRuntime"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "worker_type",
-          "timestamp",
-          "interval",
-          "metadata",
-          "runtime"
-        ],
-        "title": "SendStatusReportRequest",
-        "description": "Worker status report request"
-      },
       "SendStatusReportResponse": {
         "properties": {
           "status": {
@@ -2648,6 +2609,45 @@
         ],
         "title": "WorkerRuntime",
         "description": "Worker runtime information - Dynamic information"
+      },
+      "WorkerStatusReport": {
+        "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "worker_type": {
+            "type": "string",
+            "title": "Worker Type"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "interval": {
+            "type": "integer",
+            "title": "Interval",
+            "default": 60
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/WorkerMetadata"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/WorkerRuntime"
+          }
+        },
+        "type": "object",
+        "required": [
+          "worker_uuid",
+          "worker_type",
+          "timestamp",
+          "metadata",
+          "runtime"
+        ],
+        "title": "WorkerStatusReport",
+        "description": "Complete worker status report"
       },
       "WorkerType": {
         "type": "string",
