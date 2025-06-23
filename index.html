@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-20 15:46:23 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-23 16:43:39 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -974,6 +974,48 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/TerminateBrowserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resource/browser/terminate/restart": {
+      "post": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "Restart Browser",
+        "description": "Restart browser",
+        "operationId": "restart_browser_api_v1_resource_browser_terminate_restart_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestartBrowserRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestartBrowserResponse"
                 }
               }
             }
@@ -1982,6 +2024,75 @@
         ],
         "title": "ResourceStatusResponse",
         "description": "Response model for resource status query"
+      },
+      "RestartBrowserRequest": {
+        "properties": {
+          "resource_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Resource Uuid",
+            "description": "Resource UUID"
+          },
+          "parameters": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Parameters",
+            "description": "Additional parameters for the browser"
+          }
+        },
+        "type": "object",
+        "required": [
+          "resource_uuid",
+          "parameters"
+        ],
+        "title": "RestartBrowserRequest",
+        "description": "Request model for restarting browsers"
+      },
+      "RestartBrowserResponse": {
+        "properties": {
+          "status": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Status"
+              }
+            ],
+            "description": "Command status"
+          },
+          "resource_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Resource Uuid",
+            "description": "Resource UUID"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "resource_uuid"
+        ],
+        "title": "RestartBrowserResponse",
+        "description": "Response model for restart browser command"
       },
       "SendStatusReportResponse": {
         "properties": {
