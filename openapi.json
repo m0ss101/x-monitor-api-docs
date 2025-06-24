@@ -734,6 +734,7 @@
           "resource"
         ],
         "summary": "Submit Task",
+        "description": "Submit task to worker",
         "operationId": "submit_task_api_v1_resource_task_create_post",
         "requestBody": {
           "content": {
