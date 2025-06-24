@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-24 15:24:03 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-24 17:44:16 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -919,7 +919,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SubmitTaskRequest"
+                "$ref": "#/components/schemas/src__api__resource__TaskInfo"
               }
             }
           },
@@ -2196,31 +2196,6 @@
         "title": "Status",
         "description": "API response status enumeration"
       },
-      "SubmitTaskRequest": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Worker Uuid",
-            "description": "Submit to worker UUID"
-          },
-          "task": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/TaskInfo"
-              }
-            ],
-            "description": "Task to submit"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "task"
-        ],
-        "title": "SubmitTaskRequest",
-        "description": "Request model for submitting tasks"
-      },
       "SubmitTaskResponse": {
         "properties": {
           "status": {
@@ -2250,49 +2225,6 @@
         ],
         "title": "SubmitTaskResponse",
         "description": "Response model for submit task command"
-      },
-      "TaskInfo": {
-        "properties": {
-          "task_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Task Uuid"
-          },
-          "task_name": {
-            "type": "string",
-            "title": "Task Name"
-          },
-          "from_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "From Worker Uuid"
-          },
-          "to_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "To Worker Uuid"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          },
-          "status": {
-            "type": "string",
-            "title": "Status"
-          }
-        },
-        "type": "object",
-        "required": [
-          "task_uuid",
-          "task_name",
-          "from_worker_uuid",
-          "to_worker_uuid",
-          "created_at",
-          "status"
-        ],
-        "title": "TaskInfo",
-        "description": "Task information"
       },
       "TerminateBrowserResponse": {
         "properties": {
@@ -2628,7 +2560,14 @@
       "WorkerRuntime": {
         "properties": {
           "processed_count": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Processed Count",
             "description": "Number of processed tasks",
             "default": 0
@@ -2753,6 +2692,14 @@
           },
           "runtime": {
             "$ref": "#/components/schemas/WorkerRuntime"
+          },
+          "task": {
+            "items": {
+              "$ref": "#/components/schemas/src__models__redis_cache__TaskInfo"
+            },
+            "type": "array",
+            "title": "Task",
+            "default": []
           }
         },
         "type": "object",
@@ -2774,6 +2721,87 @@
         ],
         "title": "WorkerType",
         "description": "Worker type enumeration"
+      },
+      "src__api__resource__TaskInfo": {
+        "properties": {
+          "task_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Uuid"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "from_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "From Worker Uuid"
+          },
+          "to_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "To Worker Uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_uuid",
+          "task_name",
+          "from_worker_uuid",
+          "to_worker_uuid",
+          "created_at",
+          "status"
+        ],
+        "title": "TaskInfo",
+        "description": "Task information"
+      },
+      "src__models__redis_cache__TaskInfo": {
+        "properties": {
+          "task_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Uuid"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "from_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "From Worker Uuid"
+          },
+          "to_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "To Worker Uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_uuid",
+          "task_name",
+          "from_worker_uuid",
+          "to_worker_uuid",
+          "created_at"
+        ],
+        "title": "TaskInfo",
+        "description": "Task information"
       }
     }
   }
