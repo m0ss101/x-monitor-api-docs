@@ -1823,7 +1823,7 @@
             "anyOf": [
               {
                 "items": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/TaskInfo-Output"
                 },
                 "type": "array"
               },
@@ -2028,6 +2028,44 @@
         ],
         "title": "SubmitTaskResponse",
         "description": "Response model for submit task command"
+      },
+      "TaskInfo-Output": {
+        "properties": {
+          "task_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Uuid"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "from_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "From Worker Uuid"
+          },
+          "to_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "To Worker Uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_uuid",
+          "task_name",
+          "from_worker_uuid",
+          "to_worker_uuid",
+          "created_at"
+        ],
+        "title": "TaskInfo",
+        "description": "Task information"
       },
       "TerminateBrowserResponse": {
         "properties": {

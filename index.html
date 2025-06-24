@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-24 19:28:03 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-24 20:40:43 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -2002,7 +2002,7 @@
             "anyOf": [
               {
                 "items": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/TaskInfo-Output"
                 },
                 "type": "array"
               },
@@ -2207,6 +2207,44 @@
         ],
         "title": "SubmitTaskResponse",
         "description": "Response model for submit task command"
+      },
+      "TaskInfo-Output": {
+        "properties": {
+          "task_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Task Uuid"
+          },
+          "task_name": {
+            "type": "string",
+            "title": "Task Name"
+          },
+          "from_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "From Worker Uuid"
+          },
+          "to_worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "To Worker Uuid"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "task_uuid",
+          "task_name",
+          "from_worker_uuid",
+          "to_worker_uuid",
+          "created_at"
+        ],
+        "title": "TaskInfo",
+        "description": "Task information"
       },
       "TerminateBrowserResponse": {
         "properties": {
