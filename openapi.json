@@ -734,7 +734,6 @@
           "resource"
         ],
         "summary": "Submit Task",
-        "description": "Submit task to worker",
         "operationId": "submit_task_api_v1_resource_task_create_post",
         "requestBody": {
           "content": {
@@ -770,24 +769,74 @@
         }
       }
     },
-    "/api/v1/resource/browser/terminate": {
+    "/api/v1/resource/browser/{browser_instance_id}": {
+      "get": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "Get Browser Instance",
+        "description": "Get browser instance",
+        "operationId": "get_browser_instance_api_v1_resource_browser__browser_instance_id__get",
+        "parameters": [
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Browser instance ID",
+              "title": "Browser Instance Id"
+            },
+            "description": "Browser instance ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resource/browser/{browser_instance_id}/terminate": {
       "post": {
         "tags": [
           "resource"
         ],
         "summary": "Terminate Browser",
         "description": "Terminate browser",
-        "operationId": "terminate_browser_api_v1_resource_browser_terminate_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TerminateBrowserRequest"
-              }
-            }
-          },
-          "required": true
-        },
+        "operationId": "terminate_browser_api_v1_resource_browser__browser_instance_id__terminate_post",
+        "parameters": [
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Browser instance ID",
+              "title": "Browser Instance Id"
+            },
+            "description": "Browser instance ID"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -812,24 +861,28 @@
         }
       }
     },
-    "/api/v1/resource/browser/terminate/restart": {
+    "/api/v1/resource/browser/{browser_instance_id}/restart": {
       "post": {
         "tags": [
           "resource"
         ],
         "summary": "Restart Browser",
         "description": "Restart browser",
-        "operationId": "restart_browser_api_v1_resource_browser_terminate_restart_post",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/RestartBrowserRequest"
-              }
-            }
-          },
-          "required": true
-        },
+        "operationId": "restart_browser_api_v1_resource_browser__browser_instance_id__restart_post",
+        "parameters": [
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Browser instance ID",
+              "title": "Browser Instance Id"
+            },
+            "description": "Browser instance ID"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successful Response",
@@ -837,52 +890,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/RestartBrowserResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/resource/resource/{resource_uuid}": {
-      "get": {
-        "tags": [
-          "resource"
-        ],
-        "summary": "Get Resource Status",
-        "description": "Get resource status and information",
-        "operationId": "get_resource_status_api_v1_resource_resource__resource_uuid__get",
-        "parameters": [
-          {
-            "name": "resource_uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "Resource UUID",
-              "title": "Resource Uuid"
-            },
-            "description": "Resource UUID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ResourceStatusResponse"
                 }
               }
             }
@@ -978,72 +985,56 @@
   },
   "components": {
     "schemas": {
-      "BrowserInstanceInfo": {
+      "BrowserInstance": {
         "properties": {
           "pid": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
+            "type": "integer",
             "title": "Pid"
           },
-          "port": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Port"
+          "connection_port": {
+            "type": "integer",
+            "title": "Connection Port"
           },
-          "executable_path": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Executable Path"
+          "connection_ip": {
+            "type": "string",
+            "title": "Connection Ip"
           },
           "args": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Args"
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Args",
+            "default": []
           },
           "envs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Envs",
+            "default": []
+          },
+          "proxy_uuid": {
             "anyOf": [
               {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
+                "type": "string",
+                "format": "uuid"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Envs"
+            "title": "Proxy Uuid"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
           }
         },
         "type": "object",
-        "title": "BrowserInstanceInfo",
+        "title": "BrowserInstance",
         "description": "Browser instance runtime information"
       },
       "CreateProxyRequest": {
@@ -1798,86 +1789,6 @@
         "title": "ReportAvailability",
         "description": "Worker detailed status report availability enumeration"
       },
-      "ResourceStatusResponse": {
-        "properties": {
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ],
-            "description": "Query status"
-          },
-          "resource_uuid": {
-            "type": "string",
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
-          },
-          "resource_data": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Resource Data",
-            "description": "Resource data"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status",
-          "resource_uuid"
-        ],
-        "title": "ResourceStatusResponse",
-        "description": "Response model for resource status query"
-      },
-      "RestartBrowserRequest": {
-        "properties": {
-          "resource_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
-          },
-          "parameters": {
-            "anyOf": [
-              {
-                "items": {
-                  "type": "string"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Parameters",
-            "description": "Additional parameters for the browser"
-          }
-        },
-        "type": "object",
-        "required": [
-          "resource_uuid",
-          "parameters"
-        ],
-        "title": "RestartBrowserRequest",
-        "description": "Request model for restarting browsers"
-      },
       "RestartBrowserResponse": {
         "properties": {
           "status": {
@@ -2023,7 +1934,7 @@
             "title": "Error",
             "description": "Error details if failed"
           },
-          "resource_uuid": {
+          "browser_instance_id": {
             "anyOf": [
               {
                 "type": "string"
@@ -2032,8 +1943,8 @@
                 "type": "null"
               }
             ],
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
+            "title": "Browser Instance Id",
+            "description": "Browser instance ID"
           },
           "connection_ip": {
             "anyOf": [
@@ -2202,22 +2113,6 @@
         ],
         "title": "TaskInfo",
         "description": "Task information"
-      },
-      "TerminateBrowserRequest": {
-        "properties": {
-          "resource_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
-          }
-        },
-        "type": "object",
-        "required": [
-          "resource_uuid"
-        ],
-        "title": "TerminateBrowserRequest",
-        "description": "Request model for terminating browsers"
       },
       "TerminateBrowserResponse": {
         "properties": {
@@ -2610,7 +2505,7 @@
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/BrowserInstanceInfo"
+                  "$ref": "#/components/schemas/BrowserInstance"
                 },
                 "type": "array"
               },
