@@ -16,24 +16,6 @@
         "operationId": "get_workers_api_v1_dashboard_workers_get",
         "parameters": [
           {
-            "name": "worker_type",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "anyOf": [
-                {
-                  "$ref": "#/components/schemas/WorkerType"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Filter by worker type",
-              "title": "Worker Type"
-            },
-            "description": "Filter by worker type"
-          },
-          {
             "name": "limit",
             "in": "query",
             "required": false,
