@@ -906,7 +906,7 @@
           "resource"
         ],
         "summary": "Create browser instance by country code",
-        "operationId": "start_browser_for_country_api_v1_resource_browser_create_post",
+        "operationId": "start_browser_api_v1_resource_browser_create_post",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1952,9 +1952,29 @@
       "StartBrowserRequest": {
         "properties": {
           "country_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Country Code",
-            "description": "ISO country code (e.g., 'US', 'CN', 'JP')"
+            "description": "ISO country code (e.g., 'US', 'CN', 'JP'), leave blank to allow no proxy"
+          },
+          "allow_reuse_proxy": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Allow Reuse Proxy",
+            "description": "Allow reusing same proxy for browser instance",
+            "default": true
           },
           "parameters": {
             "anyOf": [
@@ -1973,9 +1993,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "country_code"
-        ],
         "title": "StartBrowserRequest",
         "description": "Request model for starting browsers"
       },
