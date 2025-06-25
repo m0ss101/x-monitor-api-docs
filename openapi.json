@@ -656,6 +656,222 @@
         }
       }
     },
+    "/api/v1/dashboard/events": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Events",
+        "description": "Get events list with pagination",
+        "operationId": "get_events_api_v1_dashboard_events_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Number of events to return",
+              "default": 50,
+              "title": "Limit"
+            },
+            "description": "Number of events to return"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of events to skip",
+              "default": 0,
+              "title": "Offset"
+            },
+            "description": "Number of events to skip"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEventsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Delete All Events",
+        "description": "Delete all events",
+        "operationId": "delete_all_events_api_v1_dashboard_events_delete",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteAllEventsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/events/{index}": {
+      "delete": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Delete Event By Index",
+        "description": "Delete event at specific index",
+        "operationId": "delete_event_by_index_api_v1_dashboard_events__index__delete",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Index"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteEventResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/events/stream": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Events Stream",
+        "description": "Stream events in real-time using Server-Sent Events",
+        "operationId": "get_events_stream_api_v1_dashboard_events_stream_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Number of events to return",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Number of events to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/workers/stream": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Workers Stream",
+        "description": "Stream workers data in real-time using Server-Sent Events",
+        "operationId": "get_workers_stream_api_v1_dashboard_workers_stream_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 1000,
+              "minimum": 1,
+              "description": "Number of workers to return",
+              "default": 100,
+              "title": "Limit"
+            },
+            "description": "Number of workers to return"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/worker/{uuid}/report": {
       "post": {
         "tags": [
@@ -1130,6 +1346,42 @@
         "title": "CreateProxyResponse",
         "description": "Create proxy response"
       },
+      "DeleteAllEventsResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Deletion status message"
+          },
+          "deleted_count": {
+            "type": "integer",
+            "title": "Deleted Count",
+            "description": "Number of deleted events"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "deleted_count"
+        ],
+        "title": "DeleteAllEventsResponse",
+        "description": "Delete all events response"
+      },
+      "DeleteEventResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Deletion status message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "title": "DeleteEventResponse",
+        "description": "Delete event response"
+      },
       "DeleteProxiesRequest": {
         "properties": {
           "proxy_uuids": {
@@ -1292,6 +1544,114 @@
         ],
         "title": "DetectProxyByUuidResponse",
         "description": "Detect proxy by UUID response"
+      },
+      "EventInfo": {
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "title": "Event Id",
+            "description": "Event UUID"
+          },
+          "event_type": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EventType"
+              }
+            ],
+            "description": "Event type"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Event message"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "Event timestamp"
+          },
+          "worker_uuid": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Worker Uuid",
+            "description": "Related worker UUID"
+          },
+          "metadata": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Metadata",
+            "description": "Additional metadata"
+          }
+        },
+        "type": "object",
+        "required": [
+          "event_id",
+          "event_type",
+          "message",
+          "timestamp"
+        ],
+        "title": "EventInfo",
+        "description": "Event information"
+      },
+      "EventType": {
+        "type": "string",
+        "enum": [
+          "worker_offline",
+          "worker_online",
+          "browser_error",
+          "task_completed",
+          "task_failed",
+          "system_error",
+          "notification"
+        ],
+        "title": "EventType",
+        "description": "Event types"
+      },
+      "GetEventsResponse": {
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventInfo"
+            },
+            "type": "array",
+            "title": "Events",
+            "description": "List of events"
+          },
+          "total_count": {
+            "type": "integer",
+            "title": "Total Count",
+            "description": "Total number of events"
+          },
+          "pagination": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationInfo"
+              }
+            ],
+            "description": "Pagination information"
+          }
+        },
+        "type": "object",
+        "required": [
+          "events",
+          "total_count",
+          "pagination"
+        ],
+        "title": "GetEventsResponse",
+        "description": "Get events list response"
       },
       "GetProxiesResponse": {
         "properties": {
