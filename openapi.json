@@ -1615,7 +1615,8 @@
           "task_completed",
           "task_failed",
           "system_error",
-          "notification"
+          "notification",
+          "worker_exception"
         ],
         "title": "EventType",
         "description": "Event types"
