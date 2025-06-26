@@ -1877,13 +1877,13 @@
             "title": "Worker Uuid",
             "description": "Worker UUID"
           },
-          "report_availability": {
+          "worker_type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ReportAvailability"
+                "$ref": "#/components/schemas/WorkerType"
               }
             ],
-            "description": "Status report availability"
+            "description": "Worker type"
           },
           "timestamp": {
             "anyOf": [
@@ -1937,7 +1937,7 @@
         "type": "object",
         "required": [
           "worker_uuid",
-          "report_availability"
+          "worker_type"
         ],
         "title": "GetWorkerStatusReportResponse",
         "description": "Get worker detailed status report response"
@@ -2137,15 +2137,6 @@
         ],
         "title": "RemoveWorkerResponse",
         "description": "Remove worker response"
-      },
-      "ReportAvailability": {
-        "type": "string",
-        "enum": [
-          "available",
-          "no_report"
-        ],
-        "title": "ReportAvailability",
-        "description": "Worker detailed status report availability enumeration"
       },
       "RestartBrowserResponse": {
         "properties": {

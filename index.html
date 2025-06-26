@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-26 17:45:50 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-26 19:37:22 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -2056,13 +2056,13 @@
             "title": "Worker Uuid",
             "description": "Worker UUID"
           },
-          "report_availability": {
+          "worker_type": {
             "allOf": [
               {
-                "$ref": "#/components/schemas/ReportAvailability"
+                "$ref": "#/components/schemas/WorkerType"
               }
             ],
-            "description": "Status report availability"
+            "description": "Worker type"
           },
           "timestamp": {
             "anyOf": [
@@ -2116,7 +2116,7 @@
         "type": "object",
         "required": [
           "worker_uuid",
-          "report_availability"
+          "worker_type"
         ],
         "title": "GetWorkerStatusReportResponse",
         "description": "Get worker detailed status report response"
@@ -2316,15 +2316,6 @@
         ],
         "title": "RemoveWorkerResponse",
         "description": "Remove worker response"
-      },
-      "ReportAvailability": {
-        "type": "string",
-        "enum": [
-          "available",
-          "no_report"
-        ],
-        "title": "ReportAvailability",
-        "description": "Worker detailed status report availability enumeration"
       },
       "RestartBrowserResponse": {
         "properties": {
