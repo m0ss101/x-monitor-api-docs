@@ -1186,6 +1186,16 @@
     "schemas": {
       "BrowserInstance": {
         "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "browser_instance_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Browser Instance Id"
+          },
           "pid": {
             "type": "integer",
             "title": "Pid"
@@ -1226,10 +1236,14 @@
             ],
             "title": "Proxy Uuid"
           },
-          "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Worker Uuid"
+          "is_running": {
+            "type": "boolean",
+            "title": "Is Running",
+            "default": false
+          },
+          "local_debugging_port": {
+            "type": "integer",
+            "title": "Local Debugging Port"
           }
         },
         "type": "object",
@@ -2836,32 +2850,6 @@
             ],
             "title": "Browser Instances",
             "description": "Active browser instances"
-          },
-          "total_browsers": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Total Browsers",
-            "description": "Total number of browsers",
-            "default": 0
-          },
-          "active_browsers": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Active Browsers",
-            "description": "Number of active browsers",
-            "default": 0
           }
         },
         "type": "object",
@@ -2876,8 +2864,7 @@
             "title": "Worker Uuid"
           },
           "worker_type": {
-            "type": "string",
-            "title": "Worker Type"
+            "$ref": "#/components/schemas/WorkerType"
           },
           "timestamp": {
             "type": "string",
@@ -2919,7 +2906,8 @@
         "type": "string",
         "enum": [
           "fpb_desktop",
-          "notification_mobile"
+          "notification_mobile",
+          "all"
         ],
         "title": "WorkerType",
         "description": "Worker type enumeration"
