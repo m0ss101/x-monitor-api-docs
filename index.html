@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-28 18:10:39 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-28 19:26:10 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1201,7 +1201,61 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SendStatusReportResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/worker/browser/{browser_instance_id}/report": {
+      "post": {
+        "tags": [
+          "worker"
+        ],
+        "summary": "Worker Report",
+        "description": "Worker browser instance report submission",
+        "operationId": "worker_report_api_v1_worker_browser__browser_instance_id__report_post",
+        "parameters": [
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "title": "Browser Instance Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrowserInstance"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1543,13 +1597,13 @@
           "is_running": {
             "anyOf": [
               {
-                "type": "boolean"
+                "$ref": "#/components/schemas/BrowserInstanceRunningStatus"
               },
               {
                 "type": "null"
               }
             ],
-            "title": "Is Running"
+            "default": "unknown"
           },
           "local_debugging_port": {
             "type": "integer",
@@ -1559,6 +1613,17 @@
         "type": "object",
         "title": "BrowserInstance",
         "description": "Browser instance runtime information"
+      },
+      "BrowserInstanceRunningStatus": {
+        "type": "string",
+        "enum": [
+          "unknown",
+          "running",
+          "stopped",
+          "starting"
+        ],
+        "title": "BrowserInstanceRunningStatus",
+        "description": "Browser instance status"
       },
       "CreateProxyRequest": {
         "properties": {
@@ -1868,6 +1933,39 @@
         ],
         "title": "DetectProxyByUuidResponse",
         "description": "Detect proxy by UUID response"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Error status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Error message"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error",
+            "description": "Detailed error information"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "message"
+        ],
+        "title": "ErrorResponse",
+        "description": "Standard error response model"
       },
       "EventInfo": {
         "properties": {
@@ -2412,40 +2510,6 @@
         ],
         "title": "RestartBrowserResponse",
         "description": "Response model for restart browser command"
-      },
-      "SendStatusReportResponse": {
-        "properties": {
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Status update message"
-          },
-          "tasks": {
-            "anyOf": [
-              {
-                "items": {
-                  "$ref": "#/components/schemas/TaskInfo-Output"
-                },
-                "type": "array"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Tasks",
-            "description": "Tasks"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status",
-          "message"
-        ],
-        "title": "SendStatusReportResponse",
-        "description": "Worker status report response"
       },
       "StartBrowserRequest": {
         "properties": {
