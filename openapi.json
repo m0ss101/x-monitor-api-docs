@@ -207,6 +207,52 @@
         }
       }
     },
+    "/api/v1/dashboard/browser/{browser_instance_id}": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Get Browser Instance",
+        "description": "Get browser instance",
+        "operationId": "get_browser_instance_api_v1_dashboard_browser__browser_instance_id__get",
+        "parameters": [
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Browser instance ID",
+              "title": "Browser Instance Id"
+            },
+            "description": "Browser instance ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/dashboard/workers/{uuid}/report": {
       "get": {
         "tags": [
@@ -233,7 +279,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetWorkerStatusReportResponse"
+                  "$ref": "#/components/schemas/WorkerStatusReport-Output"
                 }
               }
             }
@@ -965,7 +1011,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerStatusReport"
+                "$ref": "#/components/schemas/WorkerStatusReport-Input"
               }
             }
           }
@@ -1019,52 +1065,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SubmitTaskResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/resource/browser/{browser_instance_id}": {
-      "get": {
-        "tags": [
-          "resource"
-        ],
-        "summary": "Get Browser Instance",
-        "description": "Get browser instance",
-        "operationId": "get_browser_instance_api_v1_resource_browser__browser_instance_id__get",
-        "parameters": [
-          {
-            "name": "browser_instance_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "Browser instance ID",
-              "title": "Browser Instance Id"
-            },
-            "description": "Browser instance ID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BrowserInstance"
                 }
               }
             }
@@ -2000,78 +2000,6 @@
         ],
         "title": "GetWorkerDetailsResponse",
         "description": "Get worker details response"
-      },
-      "GetWorkerStatusReportResponse": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "worker_type": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/WorkerType"
-              }
-            ],
-            "description": "Worker type"
-          },
-          "timestamp": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timestamp",
-            "description": "Report timestamp"
-          },
-          "metadata": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Metadata",
-            "description": "Worker metadata"
-          },
-          "runtime": {
-            "anyOf": [
-              {
-                "type": "object"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Runtime",
-            "description": "Runtime information"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "worker_type"
-        ],
-        "title": "GetWorkerStatusReportResponse",
-        "description": "Get worker detailed status report response"
       },
       "GetWorkersResponse": {
         "properties": {
@@ -3020,7 +2948,7 @@
         "title": "WorkerRuntime",
         "description": "Worker runtime information - Dynamic information"
       },
-      "WorkerStatusReport": {
+      "WorkerStatusReport-Input": {
         "properties": {
           "worker_uuid": {
             "type": "string",
@@ -3049,6 +2977,52 @@
           "task": {
             "items": {
               "$ref": "#/components/schemas/src__models__redis_cache__TaskInfo"
+            },
+            "type": "array",
+            "title": "Task",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "worker_uuid",
+          "worker_type",
+          "timestamp",
+          "metadata",
+          "runtime"
+        ],
+        "title": "WorkerStatusReport",
+        "description": "Complete worker status report"
+      },
+      "WorkerStatusReport-Output": {
+        "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "worker_type": {
+            "$ref": "#/components/schemas/WorkerType"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "interval": {
+            "type": "integer",
+            "title": "Interval",
+            "default": 60
+          },
+          "metadata": {
+            "$ref": "#/components/schemas/WorkerMetadata"
+          },
+          "runtime": {
+            "$ref": "#/components/schemas/WorkerRuntime"
+          },
+          "task": {
+            "items": {
+              "$ref": "#/components/schemas/TaskInfo-Output"
             },
             "type": "array",
             "title": "Task",
