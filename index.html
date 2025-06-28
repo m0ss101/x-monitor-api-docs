@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-26 19:37:22 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-06-28 16:52:57 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1051,6 +1051,74 @@
         }
       }
     },
+    "/api/v1/dashboard/worker/{worker_uuid}/{browser_instance_id}/history/note/update": {
+      "post": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Update Browser Instance Note",
+        "description": "Update browser instance note",
+        "operationId": "update_browser_instance_note_api_v1_dashboard_worker__worker_uuid___browser_instance_id__history_note_update_post",
+        "parameters": [
+          {
+            "name": "worker_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Worker Uuid"
+            },
+            "description": "Worker UUID"
+          },
+          {
+            "name": "browser_instance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Browser instance ID",
+              "title": "Browser Instance Id"
+            },
+            "description": "Browser instance ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBrowserInstanceNoteRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateBrowserInstanceNoteResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/worker/{uuid}/report": {
       "post": {
         "tags": [
@@ -1326,6 +1394,56 @@
         }
       }
     },
+    "/api/v1/resource/worker/{worker_uuid}/history": {
+      "get": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "Get Browser Instances",
+        "description": "Get browser instances history as worker's startup list",
+        "operationId": "get_browser_instances_api_v1_resource_worker__worker_uuid__history_get",
+        "parameters": [
+          {
+            "name": "worker_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Worker Uuid"
+            },
+            "description": "Worker UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BrowserInstance"
+                  },
+                  "title": "Response Get Browser Instances Api V1 Resource Worker  Worker Uuid  History Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "summary": "Health Check",
@@ -1376,7 +1494,14 @@
             "title": "Browser Instance Id"
           },
           "pid": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Pid"
           },
           "connection_port": {
@@ -1416,9 +1541,15 @@
             "title": "Proxy Uuid"
           },
           "is_running": {
-            "type": "boolean",
-            "title": "Is Running",
-            "default": false
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Running"
           },
           "local_debugging_port": {
             "type": "integer",
@@ -2649,6 +2780,48 @@
         "title": "TerminateBrowserResponse",
         "description": "Response model for terminate browser command"
       },
+      "UpdateBrowserInstanceNoteRequest": {
+        "properties": {
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "description": "New note for the browser instance"
+          }
+        },
+        "type": "object",
+        "required": [
+          "note"
+        ],
+        "title": "UpdateBrowserInstanceNoteRequest",
+        "description": "Update browser instance note request"
+      },
+      "UpdateBrowserInstanceNoteResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Update status message"
+          },
+          "browser_instance_id": {
+            "type": "string",
+            "title": "Browser Instance Id",
+            "description": "Browser instance ID"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "description": "Updated note"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "browser_instance_id",
+          "note"
+        ],
+        "title": "UpdateBrowserInstanceNoteResponse",
+        "description": "Update browser instance note response"
+      },
       "UpdateProxyRequest": {
         "properties": {
           "note": {
@@ -3006,11 +3179,11 @@
             "title": "Load Average",
             "description": "System load average"
           },
-          "browser_instances": {
+          "browser_instance_ids": {
             "anyOf": [
               {
                 "items": {
-                  "$ref": "#/components/schemas/BrowserInstance"
+                  "type": "string"
                 },
                 "type": "array"
               },
@@ -3018,8 +3191,8 @@
                 "type": "null"
               }
             ],
-            "title": "Browser Instances",
-            "description": "Active browser instances"
+            "title": "Browser Instance Ids",
+            "description": "Active browser instances IDs"
           }
         },
         "type": "object",
