@@ -1032,52 +1032,6 @@
         }
       }
     },
-    "/api/v1/dashboard/worker/{worker_uuid}/log-server/stop": {
-      "get": {
-        "tags": [
-          "dashboard"
-        ],
-        "summary": "Stop Log Server",
-        "description": "Stop log server",
-        "operationId": "stop_log_server_api_v1_dashboard_worker__worker_uuid__log_server_stop_get",
-        "parameters": [
-          {
-            "name": "worker_uuid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "description": "Worker UUID",
-              "title": "Worker Uuid"
-            },
-            "description": "Worker UUID"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/LogServerResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/worker/{uuid}/report": {
       "post": {
         "tags": [
@@ -1339,11 +1293,21 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Browser instance created successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StartBrowserResponse"
+                  "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -2521,102 +2485,6 @@
         "type": "object",
         "title": "StartBrowserRequest",
         "description": "Request model for starting browsers"
-      },
-      "StartBrowserResponse": {
-        "properties": {
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ],
-            "description": "Command status"
-          },
-          "country_code": {
-            "type": "string",
-            "title": "Country Code",
-            "description": "Country code from request"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Error",
-            "description": "Error details if failed"
-          },
-          "browser_instance_id": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Browser Instance Id",
-            "description": "Browser instance ID"
-          },
-          "connection_ip": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection Ip",
-            "description": "Connection IP"
-          },
-          "connection_port": {
-            "anyOf": [
-              {
-                "type": "integer"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Connection Port",
-            "description": "Connection port"
-          },
-          "password": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Password",
-            "description": "Password"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status",
-          "country_code"
-        ],
-        "title": "StartBrowserResponse",
-        "description": "Response model for start browser command"
       },
       "Status": {
         "type": "string",
