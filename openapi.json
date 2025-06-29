@@ -968,7 +968,99 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateBrowserInstanceNoteResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/worker/{worker_uuid}/log-server/start": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Start Log Server",
+        "description": "Start log server",
+        "operationId": "start_log_server_api_v1_dashboard_worker__worker_uuid__log_server_start_get",
+        "parameters": [
+          {
+            "name": "worker_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Worker Uuid"
+            },
+            "description": "Worker UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogServerResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/worker/{worker_uuid}/log-server/stop": {
+      "get": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Stop Log Server",
+        "description": "Stop log server",
+        "operationId": "stop_log_server_api_v1_dashboard_worker__worker_uuid__log_server_stop_get",
+        "parameters": [
+          {
+            "name": "worker_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Worker Uuid"
+            },
+            "description": "Worker UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogServerResponse"
                 }
               }
             }
@@ -2139,6 +2231,57 @@
         "type": "object",
         "title": "HTTPValidationError"
       },
+      "LogServerResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "Operation status message"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Operation status"
+          },
+          "worker_uuid": {
+            "type": "string",
+            "title": "Worker Uuid",
+            "description": "Worker UUID"
+          },
+          "server_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Server Url",
+            "description": "Log server URL"
+          },
+          "port": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Port",
+            "description": "Log server port"
+          }
+        },
+        "type": "object",
+        "required": [
+          "message",
+          "status",
+          "worker_uuid"
+        ],
+        "title": "LogServerResponse",
+        "description": "Log server response"
+      },
       "PaginationInfo": {
         "properties": {
           "total": {
@@ -2607,33 +2750,6 @@
         ],
         "title": "UpdateBrowserInstanceNoteRequest",
         "description": "Update browser instance note request"
-      },
-      "UpdateBrowserInstanceNoteResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Update status message"
-          },
-          "browser_instance_id": {
-            "type": "string",
-            "title": "Browser Instance Id",
-            "description": "Browser instance ID"
-          },
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "Updated note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "browser_instance_id",
-          "note"
-        ],
-        "title": "UpdateBrowserInstanceNoteResponse",
-        "description": "Update browser instance note response"
       },
       "UpdateProxyRequest": {
         "properties": {
