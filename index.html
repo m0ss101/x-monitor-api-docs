@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-06-29 21:52:45 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-01 12:21:49 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -224,11 +224,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Get workers list response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetWorkersResponse"
+                  "$ref": "#/components/schemas/GetWorkersResponse-Input"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -268,11 +278,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Get worker details response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetWorkerDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -314,7 +334,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RemoveWorkerResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -368,7 +388,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateWorkerNoteResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -410,11 +430,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Browser instance response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/BrowserInstance"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -454,11 +484,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Worker status report response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerStatusReport-Output"
+                  "$ref": "#/components/schemas/WorkerStatusReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -551,11 +591,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Get proxies list response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetProxiesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -595,11 +645,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Get proxy details response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetProxyDetailsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -647,11 +707,11 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Update proxy response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UpdateProxyResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -693,7 +753,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteProxyResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -735,7 +795,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateProxyResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -773,11 +833,11 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Delete proxies batch response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteProxiesResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -859,11 +919,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Proxy detection response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DetectProxyByUuidResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -920,11 +1000,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Get events response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetEventsResponse"
+                  "$ref": "#/components/schemas/GetEventsResponse-Input"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -950,11 +1040,21 @@
         "operationId": "delete_all_events_api_v1_dashboard_events_delete",
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Delete all events response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/DeleteAllEventsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -983,11 +1083,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Delete event response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DeleteEventResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1143,7 +1253,17 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Update browser instance note response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "schema": {
@@ -1189,11 +1309,31 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Log server response",
             "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/LogServerResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1236,14 +1376,34 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkerStatusReport-Input"
+                "$ref": "#/components/schemas/WorkerStatusReport"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Worker report response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkerStatusReport"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1297,7 +1457,27 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Worker browser instance report response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1331,7 +1511,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/src__api__resource__TaskInfo"
+                "$ref": "#/components/schemas/TaskInfo"
               }
             }
           },
@@ -1339,11 +1519,105 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Task submitted successfully",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SubmitTaskResponse"
+                  "items": {
+                    "$ref": "#/components/schemas/TaskInfo"
+                  },
+                  "type": "array",
+                  "title": "Response 200 Submit Task Api V1 Resource Task Create Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/resource/worker/{worker_uuid}/tasks": {
+      "get": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "Get Pending Tasks",
+        "description": "Get all pending tasks for a worker",
+        "operationId": "get_pending_tasks_api_v1_resource_worker__worker_uuid__tasks_get",
+        "parameters": [
+          {
+            "name": "worker_uuid",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "description": "Worker UUID",
+              "title": "Worker Uuid"
+            },
+            "description": "Worker UUID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pending tasks for the worker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskInfo"
+                  },
+                  "title": "Response 200 Get Pending Tasks Api V1 Resource Worker  Worker Uuid  Tasks Get"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1385,11 +1659,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Terminate browser response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TerminateBrowserResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1431,11 +1715,21 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Restart browser response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RestartBrowserResponse"
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1528,7 +1822,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Browser instances history",
             "content": {
               "application/json": {
                 "schema": {
@@ -1536,7 +1830,27 @@
                   "items": {
                     "$ref": "#/components/schemas/BrowserInstance"
                   },
-                  "title": "Response Get Browser Instances Api V1 Resource Worker  Worker Uuid  History Get"
+                  "title": "Response 200 Get Browser Instances Api V1 Resource Worker  Worker Uuid  History Get"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1758,39 +2072,6 @@
         "title": "CreateProxyRequest",
         "description": "Create proxy request"
       },
-      "CreateProxyResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Creation status message"
-          },
-          "proxy_uuid": {
-            "type": "string",
-            "title": "Proxy Uuid",
-            "description": "Created proxy UUID"
-          },
-          "host": {
-            "type": "string",
-            "title": "Host",
-            "description": "Proxy host"
-          },
-          "port": {
-            "type": "integer",
-            "title": "Port",
-            "description": "Proxy port"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "proxy_uuid",
-          "host",
-          "port"
-        ],
-        "title": "CreateProxyResponse",
-        "description": "Create proxy response"
-      },
       "DeleteAllEventsResponse": {
         "properties": {
           "message": {
@@ -1812,21 +2093,6 @@
         "title": "DeleteAllEventsResponse",
         "description": "Delete all events response"
       },
-      "DeleteEventResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Deletion status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message"
-        ],
-        "title": "DeleteEventResponse",
-        "description": "Delete event response"
-      },
       "DeleteProxiesRequest": {
         "properties": {
           "proxy_uuids": {
@@ -1844,51 +2110,6 @@
         ],
         "title": "DeleteProxiesRequest",
         "description": "Delete proxies batch request"
-      },
-      "DeleteProxiesResponse": {
-        "properties": {
-          "successful": {
-            "type": "integer",
-            "title": "Successful",
-            "description": "Number of successfully deleted proxies"
-          },
-          "failed": {
-            "type": "integer",
-            "title": "Failed",
-            "description": "Number of failed deletions"
-          },
-          "errors": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array",
-            "title": "Errors",
-            "description": "List of error messages",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "successful",
-          "failed"
-        ],
-        "title": "DeleteProxiesResponse",
-        "description": "Delete proxies batch response"
-      },
-      "DeleteProxyResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Deletion status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message"
-        ],
-        "title": "DeleteProxyResponse",
-        "description": "Delete proxy response"
       },
       "DetectProxiesRequest": {
         "properties": {
@@ -2001,18 +2222,6 @@
             "type": "string",
             "title": "Message",
             "description": "Error message"
-          },
-          "error": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Error",
-            "description": "Detailed error information"
           }
         },
         "type": "object",
@@ -2099,7 +2308,40 @@
         "title": "EventType",
         "description": "Event types"
       },
-      "GetEventsResponse": {
+      "GetEventsResponse-Input": {
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/EventInfo"
+            },
+            "type": "array",
+            "title": "Events",
+            "description": "List of events"
+          },
+          "total_count": {
+            "type": "integer",
+            "title": "Total Count",
+            "description": "Total number of events"
+          },
+          "pagination": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationInfo"
+              }
+            ],
+            "description": "Pagination information"
+          }
+        },
+        "type": "object",
+        "required": [
+          "events",
+          "total_count",
+          "pagination"
+        ],
+        "title": "GetEventsResponse",
+        "description": "Get events list response"
+      },
+      "GetEventsResponse-Output": {
         "properties": {
           "events": {
             "items": {
@@ -2334,7 +2576,34 @@
         "title": "GetWorkerDetailsResponse",
         "description": "Get worker details response"
       },
-      "GetWorkersResponse": {
+      "GetWorkersResponse-Input": {
+        "properties": {
+          "workers": {
+            "items": {
+              "$ref": "#/components/schemas/WorkerInfo"
+            },
+            "type": "array",
+            "title": "Workers",
+            "description": "List of workers"
+          },
+          "pagination": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PaginationInfo"
+              }
+            ],
+            "description": "Pagination information"
+          }
+        },
+        "type": "object",
+        "required": [
+          "workers",
+          "pagination"
+        ],
+        "title": "GetWorkersResponse",
+        "description": "Get workers list response"
+      },
+      "GetWorkersResponse-Output": {
         "properties": {
           "workers": {
             "items": {
@@ -2566,58 +2835,6 @@
         "title": "ProxyInfo",
         "description": "Proxy information"
       },
-      "RemoveWorkerResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Removal status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message"
-        ],
-        "title": "RemoveWorkerResponse",
-        "description": "Remove worker response"
-      },
-      "RestartBrowserResponse": {
-        "properties": {
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ],
-            "description": "Command status"
-          },
-          "resource_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status",
-          "resource_uuid"
-        ],
-        "title": "RestartBrowserResponse",
-        "description": "Response model for restart browser command"
-      },
       "StartBrowserRequest": {
         "properties": {
           "country_code": {
@@ -2665,50 +2882,7 @@
         "title": "StartBrowserRequest",
         "description": "Request model for starting browsers"
       },
-      "Status": {
-        "type": "string",
-        "enum": [
-          "ok",
-          "failed",
-          "error",
-          "sent",
-          "no_worker",
-          "no_proxy"
-        ],
-        "title": "Status",
-        "description": "API response status enumeration"
-      },
-      "SubmitTaskResponse": {
-        "properties": {
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ],
-            "description": "Command status"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status"
-        ],
-        "title": "SubmitTaskResponse",
-        "description": "Response model for submit task command"
-      },
-      "TaskInfo-Output": {
+      "TaskInfo": {
         "properties": {
           "task_uuid": {
             "type": "string",
@@ -2733,6 +2907,12 @@
             "type": "string",
             "format": "date-time",
             "title": "Created At"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Task status",
+            "default": "pending"
           }
         },
         "type": "object",
@@ -2745,43 +2925,6 @@
         ],
         "title": "TaskInfo",
         "description": "Task information"
-      },
-      "TerminateBrowserResponse": {
-        "properties": {
-          "status": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Status"
-              }
-            ],
-            "description": "Command status"
-          },
-          "resource_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Resource Uuid",
-            "description": "Resource UUID"
-          },
-          "message": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Message",
-            "description": "Status message"
-          }
-        },
-        "type": "object",
-        "required": [
-          "status",
-          "resource_uuid"
-        ],
-        "title": "TerminateBrowserResponse",
-        "description": "Response model for terminate browser command"
       },
       "UpdateBrowserInstanceNoteRequest": {
         "properties": {
@@ -2841,63 +2984,6 @@
         "title": "UpdateProxyRequest",
         "description": "Update proxy request - can update any combination of fields"
       },
-      "UpdateProxyResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Update status message"
-          },
-          "proxy_uuid": {
-            "type": "string",
-            "title": "Proxy Uuid",
-            "description": "Proxy UUID"
-          },
-          "note": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Note",
-            "description": "Updated note"
-          },
-          "country_code": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Country Code",
-            "description": "Updated country code"
-          },
-          "timezone": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Timezone",
-            "description": "Updated timezone"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "proxy_uuid"
-        ],
-        "title": "UpdateProxyResponse",
-        "description": "Update proxy response"
-      },
       "UpdateWorkerNoteRequest": {
         "properties": {
           "note": {
@@ -2912,33 +2998,6 @@
         ],
         "title": "UpdateWorkerNoteRequest",
         "description": "Update worker note request"
-      },
-      "UpdateWorkerNoteResponse": {
-        "properties": {
-          "message": {
-            "type": "string",
-            "title": "Message",
-            "description": "Update status message"
-          },
-          "worker_uuid": {
-            "type": "string",
-            "title": "Worker Uuid",
-            "description": "Worker UUID"
-          },
-          "note": {
-            "type": "string",
-            "title": "Note",
-            "description": "Updated note"
-          }
-        },
-        "type": "object",
-        "required": [
-          "message",
-          "worker_uuid",
-          "note"
-        ],
-        "title": "UpdateWorkerNoteResponse",
-        "description": "Update worker note response"
       },
       "ValidationError": {
         "properties": {
@@ -3031,12 +3090,26 @@
       "WorkerMetadata": {
         "properties": {
           "client_ip": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Client Ip"
           },
           "startup_time": {
-            "type": "string",
-            "format": "date-time",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Startup Time"
           },
           "worker_version": {
@@ -3085,10 +3158,6 @@
           }
         },
         "type": "object",
-        "required": [
-          "client_ip",
-          "startup_time"
-        ],
         "title": "WorkerMetadata",
         "description": "Worker metadata - Static information"
       },
@@ -3175,7 +3244,7 @@
         "title": "WorkerRuntime",
         "description": "Worker runtime information - Dynamic information"
       },
-      "WorkerStatusReport-Input": {
+      "WorkerStatusReport": {
         "properties": {
           "worker_uuid": {
             "type": "string",
@@ -3186,8 +3255,15 @@
             "$ref": "#/components/schemas/WorkerType"
           },
           "timestamp": {
-            "type": "string",
-            "format": "date-time",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Timestamp"
           },
           "interval": {
@@ -3196,73 +3272,38 @@
             "default": 60
           },
           "metadata": {
-            "$ref": "#/components/schemas/WorkerMetadata"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WorkerMetadata"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "runtime": {
-            "$ref": "#/components/schemas/WorkerRuntime"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WorkerRuntime"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
-          "task": {
+          "tasks": {
             "items": {
-              "$ref": "#/components/schemas/src__models__redis_cache__TaskInfo"
+              "$ref": "#/components/schemas/TaskInfo"
             },
             "type": "array",
-            "title": "Task",
+            "title": "Tasks",
             "default": []
           }
         },
         "type": "object",
         "required": [
           "worker_uuid",
-          "worker_type",
-          "timestamp",
-          "metadata",
-          "runtime"
-        ],
-        "title": "WorkerStatusReport",
-        "description": "Complete worker status report"
-      },
-      "WorkerStatusReport-Output": {
-        "properties": {
-          "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Worker Uuid"
-          },
-          "worker_type": {
-            "$ref": "#/components/schemas/WorkerType"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Timestamp"
-          },
-          "interval": {
-            "type": "integer",
-            "title": "Interval",
-            "default": 60
-          },
-          "metadata": {
-            "$ref": "#/components/schemas/WorkerMetadata"
-          },
-          "runtime": {
-            "$ref": "#/components/schemas/WorkerRuntime"
-          },
-          "task": {
-            "items": {
-              "$ref": "#/components/schemas/TaskInfo-Output"
-            },
-            "type": "array",
-            "title": "Task",
-            "default": []
-          }
-        },
-        "type": "object",
-        "required": [
-          "worker_uuid",
-          "worker_type",
-          "timestamp",
-          "metadata",
-          "runtime"
+          "worker_type"
         ],
         "title": "WorkerStatusReport",
         "description": "Complete worker status report"
@@ -3276,87 +3317,6 @@
         ],
         "title": "WorkerType",
         "description": "Worker type enumeration"
-      },
-      "src__api__resource__TaskInfo": {
-        "properties": {
-          "task_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Task Uuid"
-          },
-          "task_name": {
-            "type": "string",
-            "title": "Task Name"
-          },
-          "from_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "From Worker Uuid"
-          },
-          "to_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "To Worker Uuid"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          },
-          "status": {
-            "type": "string",
-            "title": "Status"
-          }
-        },
-        "type": "object",
-        "required": [
-          "task_uuid",
-          "task_name",
-          "from_worker_uuid",
-          "to_worker_uuid",
-          "created_at",
-          "status"
-        ],
-        "title": "TaskInfo",
-        "description": "Task information"
-      },
-      "src__models__redis_cache__TaskInfo": {
-        "properties": {
-          "task_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Task Uuid"
-          },
-          "task_name": {
-            "type": "string",
-            "title": "Task Name"
-          },
-          "from_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "From Worker Uuid"
-          },
-          "to_worker_uuid": {
-            "type": "string",
-            "format": "uuid",
-            "title": "To Worker Uuid"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          }
-        },
-        "type": "object",
-        "required": [
-          "task_uuid",
-          "task_name",
-          "from_worker_uuid",
-          "to_worker_uuid",
-          "created_at"
-        ],
-        "title": "TaskInfo",
-        "description": "Task information"
       }
     }
   }
