@@ -20,4 +20,4 @@ The API provides middleware services for the Fingerprint Browser Automation Syst
 
 ## Last Updated
 
-Generated on: 2025-07-01 21:36:04 CST
+Generated on: 2025-07-01 22:00:15 CST
