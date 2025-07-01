@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-01 12:21:49 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-01 12:38:18 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1387,7 +1387,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/WorkerStatusReport"
+                  "$ref": "#/components/schemas/WorkerReportResponse"
                 }
               }
             }
@@ -3160,6 +3160,33 @@
         "type": "object",
         "title": "WorkerMetadata",
         "description": "Worker metadata - Static information"
+      },
+      "WorkerReportResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "tasks": {
+            "items": {
+              "$ref": "#/components/schemas/TaskInfo"
+            },
+            "type": "array",
+            "title": "Tasks"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "message",
+          "tasks"
+        ],
+        "title": "WorkerReportResponse",
+        "description": "Worker report response"
       },
       "WorkerRuntime": {
         "properties": {
