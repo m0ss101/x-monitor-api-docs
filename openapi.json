@@ -1788,7 +1788,7 @@
           "is_running": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/BrowserInstanceRunningStatus"
+                "$ref": "#/components/schemas/BrowserInstanceRunningStates"
               },
               {
                 "type": "null"
@@ -1805,7 +1805,7 @@
         "title": "BrowserInstance",
         "description": "Browser instance runtime information"
       },
-      "BrowserInstanceRunningStatus": {
+      "BrowserInstanceRunningStates": {
         "type": "string",
         "enum": [
           "unknown",
@@ -1813,7 +1813,7 @@
           "stopped",
           "starting"
         ],
-        "title": "BrowserInstanceRunningStatus",
+        "title": "BrowserInstanceRunningStates",
         "description": "Browser instance status"
       },
       "CreateProxyRequest": {

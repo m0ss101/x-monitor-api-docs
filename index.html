@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-01 22:00:13 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-02 18:26:12 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1967,7 +1967,7 @@
           "is_running": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/BrowserInstanceRunningStatus"
+                "$ref": "#/components/schemas/BrowserInstanceRunningStates"
               },
               {
                 "type": "null"
@@ -1984,7 +1984,7 @@
         "title": "BrowserInstance",
         "description": "Browser instance runtime information"
       },
-      "BrowserInstanceRunningStatus": {
+      "BrowserInstanceRunningStates": {
         "type": "string",
         "enum": [
           "unknown",
@@ -1992,7 +1992,7 @@
           "stopped",
           "starting"
         ],
-        "title": "BrowserInstanceRunningStatus",
+        "title": "BrowserInstanceRunningStates",
         "description": "Browser instance status"
       },
       "CreateProxyRequest": {
