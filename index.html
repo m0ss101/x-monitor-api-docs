@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-02 19:57:35 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-03 15:44:17 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -776,14 +776,14 @@
         "tags": [
           "dashboard"
         ],
-        "summary": "Insert Proxy",
-        "description": "Create a new proxy (for importing proxies)",
-        "operationId": "insert_proxy_api_v1_dashboard_proxy_insert_post",
+        "summary": "Insert Proxies",
+        "description": "Create new proxies (for importing proxies in batch)",
+        "operationId": "insert_proxies_api_v1_dashboard_proxy_insert_post",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateProxyRequest"
+                "$ref": "#/components/schemas/CreateProxiesRequest"
               }
             }
           },
@@ -795,8 +795,48 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/CreateProxiesResponse"
                 }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dashboard/proxy/insert/stream": {
+      "post": {
+        "tags": [
+          "dashboard"
+        ],
+        "summary": "Insert Proxies Stream",
+        "description": "Create new proxies with streaming progress updates",
+        "operationId": "insert_proxies_stream_api_v1_dashboard_proxy_insert_stream_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProxiesRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
               }
             }
           },
@@ -1697,7 +1737,6 @@
           "resource"
         ],
         "summary": "Restart Browser",
-        "description": "Restart browser",
         "operationId": "restart_browser_api_v1_resource_browser__browser_instance_id__restart_post",
         "parameters": [
           {
@@ -1713,6 +1752,16 @@
             "description": "Browser instance ID"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestartBrowserRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Restart browser response",
@@ -1994,6 +2043,87 @@
         ],
         "title": "BrowserInstanceRunningStates",
         "description": "Browser instance status"
+      },
+      "CreateProxiesRequest": {
+        "properties": {
+          "proxies": {
+            "items": {
+              "$ref": "#/components/schemas/CreateProxyRequest"
+            },
+            "type": "array",
+            "title": "Proxies",
+            "description": "List of proxies to create"
+          },
+          "detect_availability": {
+            "type": "boolean",
+            "title": "Detect Availability",
+            "description": "Whether to detect proxy availability during import",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "proxies"
+        ],
+        "title": "CreateProxiesRequest",
+        "description": "Create proxies batch request"
+      },
+      "CreateProxiesResponse": {
+        "properties": {
+          "successful": {
+            "type": "integer",
+            "title": "Successful",
+            "description": "Number of successfully created proxies"
+          },
+          "failed": {
+            "type": "integer",
+            "title": "Failed",
+            "description": "Number of failed creations"
+          },
+          "errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Errors",
+            "description": "List of error messages",
+            "default": []
+          },
+          "duplicates": {
+            "type": "integer",
+            "title": "Duplicates",
+            "description": "Number of duplicate proxies (updated)",
+            "default": 0
+          },
+          "detected": {
+            "type": "integer",
+            "title": "Detected",
+            "description": "Number of proxies with successful detection",
+            "default": 0
+          },
+          "detection_failed": {
+            "type": "integer",
+            "title": "Detection Failed",
+            "description": "Number of proxies with failed detection",
+            "default": 0
+          },
+          "detection_errors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Detection Errors",
+            "description": "List of detection error messages",
+            "default": []
+          }
+        },
+        "type": "object",
+        "required": [
+          "successful",
+          "failed"
+        ],
+        "title": "CreateProxiesResponse",
+        "description": "Create proxies batch response"
       },
       "CreateProxyRequest": {
         "properties": {
@@ -2834,6 +2964,21 @@
         ],
         "title": "ProxyInfo",
         "description": "Proxy information"
+      },
+      "RestartBrowserRequest": {
+        "properties": {
+          "override_proxy_country_code": {
+            "type": "string",
+            "title": "Override Proxy Country Code",
+            "description": "Override proxy country code, leave blank to use default, 'NO_PROXY' to use no proxy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "override_proxy_country_code"
+        ],
+        "title": "RestartBrowserRequest",
+        "description": "Request model for restarting browsers"
       },
       "StartBrowserRequest": {
         "properties": {
