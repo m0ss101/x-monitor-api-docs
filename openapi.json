@@ -2789,15 +2789,19 @@
       "RestartBrowserRequest": {
         "properties": {
           "override_proxy_country_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Override Proxy Country Code",
             "description": "Override proxy country code, leave blank to use default, 'NO_PROXY' to use no proxy"
           }
         },
         "type": "object",
-        "required": [
-          "override_proxy_country_code"
-        ],
         "title": "RestartBrowserRequest",
         "description": "Request model for restarting browsers"
       },

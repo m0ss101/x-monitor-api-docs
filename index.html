@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-03 15:44:17 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-03 20:27:53 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -2968,15 +2968,19 @@
       "RestartBrowserRequest": {
         "properties": {
           "override_proxy_country_code": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Override Proxy Country Code",
             "description": "Override proxy country code, leave blank to use default, 'NO_PROXY' to use no proxy"
           }
         },
         "type": "object",
-        "required": [
-          "override_proxy_country_code"
-        ],
         "title": "RestartBrowserRequest",
         "description": "Request model for restarting browsers"
       },
