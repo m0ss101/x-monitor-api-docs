@@ -1834,10 +1834,10 @@
             ],
             "title": "Proxy Uuid"
           },
-          "is_running": {
+          "state": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/BrowserInstanceRunningStates"
+                "$ref": "#/components/schemas/BrowserInstanceState"
               },
               {
                 "type": "null"
@@ -1854,15 +1854,15 @@
         "title": "BrowserInstance",
         "description": "Browser instance runtime information"
       },
-      "BrowserInstanceRunningStates": {
+      "BrowserInstanceState": {
         "type": "string",
         "enum": [
           "unknown",
           "running",
           "stopped",
-          "starting"
+          "exceed_restart_limit"
         ],
-        "title": "BrowserInstanceRunningStates",
+        "title": "BrowserInstanceState",
         "description": "Browser instance status"
       },
       "CreateProxiesRequest": {

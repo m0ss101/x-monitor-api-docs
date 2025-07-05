@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-04 17:07:07 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-05 15:35:49 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -2013,10 +2013,10 @@
             ],
             "title": "Proxy Uuid"
           },
-          "is_running": {
+          "state": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/BrowserInstanceRunningStates"
+                "$ref": "#/components/schemas/BrowserInstanceState"
               },
               {
                 "type": "null"
@@ -2033,15 +2033,15 @@
         "title": "BrowserInstance",
         "description": "Browser instance runtime information"
       },
-      "BrowserInstanceRunningStates": {
+      "BrowserInstanceState": {
         "type": "string",
         "enum": [
           "unknown",
           "running",
           "stopped",
-          "starting"
+          "exceed_restart_limit"
         ],
-        "title": "BrowserInstanceRunningStates",
+        "title": "BrowserInstanceState",
         "description": "Browser instance status"
       },
       "CreateProxiesRequest": {
