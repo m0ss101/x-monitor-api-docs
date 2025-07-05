@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-05 15:35:49 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-05 18:45:49 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -1470,9 +1470,9 @@
         "tags": [
           "worker"
         ],
-        "summary": "Worker Report",
+        "summary": "Browser Instance Report",
         "description": "Worker browser instance report submission",
-        "operationId": "worker_report_api_v1_worker_browser__browser_instance_id__report_post",
+        "operationId": "browser_instance_report_api_v1_worker_browser__browser_instance_id__report_post",
         "parameters": [
           {
             "name": "browser_instance_id",
@@ -1490,7 +1490,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BrowserInstance"
+                "$ref": "#/components/schemas/ReportBrowserInstance"
               }
             }
           }
@@ -2964,6 +2964,85 @@
         ],
         "title": "ProxyInfo",
         "description": "Proxy information"
+      },
+      "ReportBrowserInstance": {
+        "properties": {
+          "worker_uuid": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Worker Uuid"
+          },
+          "browser_instance_id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Browser Instance Id"
+          },
+          "pid": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pid"
+          },
+          "connection_port": {
+            "type": "integer",
+            "title": "Connection Port"
+          },
+          "connection_ip": {
+            "type": "string",
+            "title": "Connection Ip"
+          },
+          "args": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Args",
+            "default": []
+          },
+          "envs": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Envs",
+            "default": []
+          },
+          "proxy_uuid": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Proxy Uuid"
+          },
+          "state": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BrowserInstanceState"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": "unknown"
+          },
+          "local_debugging_port": {
+            "type": "integer",
+            "title": "Local Debugging Port"
+          }
+        },
+        "type": "object",
+        "title": "ReportBrowserInstance",
+        "description": "Browser instance runtime information"
       },
       "RestartBrowserRequest": {
         "properties": {
