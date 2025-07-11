@@ -1668,6 +1668,68 @@
         }
       }
     },
+    "/api/v1/resource/browser/history/update": {
+      "post": {
+        "tags": [
+          "resource"
+        ],
+        "summary": "Update Browser History",
+        "description": "Update browser history",
+        "operationId": "update_browser_history_api_v1_resource_browser_history_update_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BrowserInstance"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update browser history response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/resource/worker/{worker_uuid}/history": {
       "get": {
         "tags": [
@@ -2878,6 +2940,36 @@
             ],
             "title": "Override Proxy Country Code",
             "description": "Override proxy country code, leave blank to use default, 'NO_PROXY' to use no proxy"
+          },
+          "args": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Args",
+            "description": "Additional arguments for the browser"
+          },
+          "envs": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Envs",
+            "description": "Additional environment variables for the browser"
           }
         },
         "type": "object",
