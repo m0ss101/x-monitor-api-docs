@@ -161,7 +161,7 @@
         <div class="header-content">
             <h1>Execution Service API</h1>
             <p class="subtitle">RESTful API for worker management and browser automation</p>
-            <div class="timestamp">Last updated: 2025-07-11 11:57:20 (Asia/Shanghai)</div>
+            <div class="timestamp">Last updated: 2025-07-20 20:18:11 (Asia/Shanghai)</div>
         </div>
     </div>
     
@@ -406,14 +406,14 @@
         }
       }
     },
-    "/api/v1/dashboard/browser/{browser_instance_id}": {
+    "/api/v1/dashboard/browser/{browser_instance_id}/report": {
       "get": {
         "tags": [
           "dashboard"
         ],
         "summary": "Get Browser Instance",
         "description": "Get browser instance",
-        "operationId": "get_browser_instance_api_v1_dashboard_browser__browser_instance_id__get",
+        "operationId": "get_browser_instance_api_v1_dashboard_browser__browser_instance_id__report_get",
         "parameters": [
           {
             "name": "browser_instance_id",
@@ -434,7 +434,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BrowserInstance"
+                  "$ref": "#/components/schemas/ReportBrowserInstance"
                 }
               }
             }
@@ -468,7 +468,7 @@
           "dashboard"
         ],
         "summary": "Get Worker Status Report",
-        "description": "Get worker status report",
+        "description": "Get worker status",
         "operationId": "get_worker_status_report_api_v1_dashboard_workers__uuid__report_get",
         "parameters": [
           {
@@ -1496,8 +1496,11 @@
           }
         },
         "responses": {
-          "200": {
-            "description": "Worker browser instance report response",
+          "204": {
+            "description": "Browser instance report submitted successfully"
+          },
+          "400": {
+            "description": "Bad request",
             "content": {
               "application/json": {
                 "schema": {
@@ -1506,8 +1509,8 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request",
+          "422": {
+            "description": "Validation error",
             "content": {
               "application/json": {
                 "schema": {
@@ -1522,16 +1525,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ErrorResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
                 }
               }
             }
@@ -3030,13 +3023,27 @@
       "ReportBrowserInstance": {
         "properties": {
           "worker_uuid": {
-            "type": "string",
-            "format": "uuid",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Worker Uuid"
           },
           "browser_instance_id": {
-            "type": "string",
-            "format": "uuid",
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uuid"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Browser Instance Id"
           },
           "pid": {
@@ -3051,11 +3058,25 @@
             "title": "Pid"
           },
           "connection_port": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connection Port"
           },
           "connection_ip": {
-            "type": "string",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Connection Ip"
           },
           "args": {
@@ -3098,8 +3119,30 @@
             "default": "unknown"
           },
           "local_debugging_port": {
-            "type": "integer",
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "title": "Local Debugging Port"
+          },
+          "cpu_usage": {
+            "type": "number",
+            "title": "Cpu Usage",
+            "default": 0
+          },
+          "memory_usage_mb": {
+            "type": "number",
+            "title": "Memory Usage Mb",
+            "default": 0
+          },
+          "process_count": {
+            "type": "integer",
+            "title": "Process Count",
+            "default": 0
           }
         },
         "type": "object",
